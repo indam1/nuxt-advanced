@@ -24,11 +24,10 @@
                 type="submit"
                 variant="solid"
                 color="black"
+                label="Sign-in"
                 :loading="pending"
                 :disabled="pending"
-            >
-                Sign-in
-            </UButton>
+            />
         </form>
     </UCard>
     <UCard v-else>

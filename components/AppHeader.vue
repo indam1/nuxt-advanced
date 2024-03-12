@@ -13,17 +13,17 @@
                 :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }"
             >
                 <UAvatar
-                    src="https://avatars.githubusercontent.com/u/739984?v=4"
+                    :src="url ?? 'https://avatars.githubusercontent.com/u/739984?v=4'"
                     alt="Avatar"
                 />
 
-                <template #account="{ item }">
+                <template #account>
                     <div class="text-left">
                         <p>
                             Signed in as
                         </p>
                         <p class="font-medium text-gray-900 dark:text-white">
-                            {{ item.label }}
+                            {{ user.email }}
                         </p>
                     </div>
                 </template>
@@ -44,15 +44,15 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
+const { url } = useAvatarUrl();
 const items = [
     [{
-        label: user.value?.email,
         slot: 'account',
         disabled: true
     }], [{
         label: 'Settings',
         icon: 'i-heroicons-cog-8-tooth',
-        click: () => console.log('Link to settings in the future'),
+        click: () => navigateTo('/settings/profile'),
     }, {
         label: 'Sign out',
         icon: 'i-heroicons-arrow-left-on-rectangle',

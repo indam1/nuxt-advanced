@@ -45,7 +45,7 @@ export const useFetchTransactions = async (period: any) => {
     const transactionsGroupedByDate = computed(() => {
         return transactions.value.reduce<Record<string, Array<Tables<'transactions'>>>>(
             (acc, transaction) => {
-                const date = new Date(transaction.created_at).toISOString().split('T')[0];
+                const date = transaction.created_at.split('T')[0];
                 if (!acc[date]) {
                     acc[date] = [];
                 }

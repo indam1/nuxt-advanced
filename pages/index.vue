@@ -88,6 +88,7 @@
                 :key="transaction.id"
                 :transaction="transaction"
                 @transactiondelete="refresh"
+                @transactionedit="refresh"
             />
         </div>
     </section>
@@ -103,8 +104,8 @@
 <script setup lang="ts">
 import {TransactionViewOption} from "~/constants";
 import {getValues} from "~/lib/enum";
-import TrendItem from "~/components/trend-item.vue";
-import TransactionItem from "~/components/transaction-item.vue";
+import TrendItem from "~/components/TrendItem.vue";
+import TransactionItem from "~/components/TransactionItem.vue";
 
 const selectedView = ref(TransactionViewOption.Monthly);
 const isOpen = ref(false);

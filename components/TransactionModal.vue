@@ -2,7 +2,7 @@
     <UModal v-model="isOpen">
         <UCard>
             <template #header>
-                Add Transaction
+                {{ isEditing ? 'Edit' : 'Add' }} Transaction
             </template>
 
             <UForm
@@ -19,6 +19,7 @@
                 >
                     <USelect
                         v-model="state.type"
+                        :disable="isEditing"
                         placeholder="Select the transaction type"
                         :options="getValues(TransactionType)"
                     />
@@ -90,13 +91,15 @@
 
 <script setup lang="ts">
 import { TransactionCategory, TransactionType } from "~/constants";
-import type {Database, TablesInsert} from "~/types/supabase";
+import type {Database, Tables, TablesInsert} from "~/types/supabase";
 import { z } from 'zod';
 import {getValues, hasErrorMessage} from "~/lib/enum";
 
 const props = defineProps<{
-    modelValue: boolean
+    modelValue: boolean,
+    transaction?: Tables<'transactions'>
 }>();
+const isEditing = computed(() => !!props.transaction);
 const emit = defineEmits(['update:modelValue', 'save']);
 
 const defaultSchema = z.object({
@@ -139,13 +142,13 @@ const saveForm = async () => {
 
     isLoading.value = true;
     try {
-        const { error } = await supabase.from('transactions').upsert({ ...state.value });
+        const { error } = await supabase.from('transactions').upsert({ ...state.value, id: props.transaction?.id });
         if (error) {
             notifyError(error);
             return;
         }
 
-        toastSuccess({title: 'Transaction saved',});
+        toastSuccess({ title: 'Transaction saved' });
         isOpen.value = false;
         emit('save');
 
@@ -157,7 +160,13 @@ const saveForm = async () => {
     }
 };
 
-const initialState = {
+const initialState = isEditing.value ? {
+    type: props.transaction.type,
+    amount: props.transaction.amount,
+    created_at: props.transaction.created_at.split('T')[0],
+    description: props.transaction.description,
+    category: props.transaction.category,
+} : {
     type: undefined,
     amount: 0,
     created_at: undefined,
