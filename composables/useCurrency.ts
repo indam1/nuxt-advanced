@@ -7,4 +7,4 @@ export const useCurrency = (amount: any) => {
     );
 
     return { currency };
-}
+};

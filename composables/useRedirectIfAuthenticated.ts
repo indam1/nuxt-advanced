@@ -8,4 +8,4 @@ export const useRedirectIfAuthenticated = (url = '/') => {
     }, { immediate: true });
 
     return { user };
-}
+};

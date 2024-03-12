@@ -11,12 +11,12 @@
 </template>
 
 <script setup lang="ts">
-import type {Tables} from "~/types/supabase";
+import type {Tables} from '~/types/supabase';
 
 const props = defineProps<{
     transactions: Array<Tables<'transactions'>>
     date: string
-}>()
+}>();
 
 const sum = computed(() => props.transactions.reduce<number>(
     (acc, transaction) => acc + (transaction.type === 'Income' ? 1 : -1) * (transaction.amount ?? 0), 0)

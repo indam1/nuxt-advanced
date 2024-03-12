@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "seed": "node seed.mjs"
+    "seed": "node seed.mjs",
+    "lint-fix": "eslint --ext .js,.vue --fix ."
   },
   "dependencies": {
     "@nuxt/ui": "^2.14.1",
@@ -18,8 +19,11 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
+    "@nuxt/eslint-config": "^0.2.0",
+    "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/supabase": "^1.1.6",
     "date-fns": "^3.3.1",
+    "eslint": "^8.57.0",
     "supabase": "^1.148.6",
     "typescript": "^5.3.3",
     "vue-tsc": "^2.0.4",

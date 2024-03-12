@@ -5,28 +5,84 @@
                 Add Transaction
             </template>
 
-            <UForm :state="state" :schema="schema" ref="form" @submit="saveForm">
-                <UFormGroup label="Transaction Type" :required="true"  name="type" class="mb-4">
-                    <USelect placeholder="Select the transaction type" :options="getValues(TransactionType)" v-model="state.type" />
+            <UForm
+                ref="form"
+                :state="state"
+                :schema="schema"
+                @submit="saveForm"
+            >
+                <UFormGroup
+                    label="Transaction Type"
+                    :required="true"
+                    name="type"
+                    class="mb-4"
+                >
+                    <USelect
+                        v-model="state.type"
+                        placeholder="Select the transaction type"
+                        :options="getValues(TransactionType)"
+                    />
                 </UFormGroup>
 
-                <UFormGroup label="Amount" :required="true" name="amount" class="mb-4">
-                    <UInput type="number" placeholder="Amount" v-model.number="state.amount" />
+                <UFormGroup
+                    label="Amount"
+                    :required="true"
+                    name="amount"
+                    class="mb-4"
+                >
+                    <UInput
+                        v-model.number="state.amount"
+                        type="number"
+                        placeholder="Amount"
+                    />
                 </UFormGroup>
 
-                <UFormGroup label="Transaction date" :required="true" name="created_at" class="mb-4">
-                    <UInput type="date" icon="i-heroicons-calendar-days-20-solid" v-model="state.created_at" />
+                <UFormGroup
+                    label="Transaction date"
+                    :required="true"
+                    name="created_at"
+                    class="mb-4"
+                >
+                    <UInput
+                        v-model="state.created_at"
+                        type="date"
+                        icon="i-heroicons-calendar-days-20-solid"
+                    />
                 </UFormGroup>
 
-                <UFormGroup label="Description" hint="Optional" name="description" class="mb-4">
-                    <UInput placeholder="Description" v-model="state.description" />
+                <UFormGroup
+                    label="Description"
+                    hint="Optional"
+                    name="description"
+                    class="mb-4"
+                >
+                    <UInput
+                        v-model="state.description"
+                        placeholder="Description"
+                    />
                 </UFormGroup>
 
-                <UFormGroup label="Category" hint="Optional" name="category" class="mb-4" v-if="state.type === TransactionType.Expense">
-                    <USelect placeholder="Select" :options="getValues(TransactionCategory)" v-model="state.category" />
+                <UFormGroup
+                    v-if="state.type === TransactionType.Expense"
+                    label="Category"
+                    hint="Optional"
+                    name="category"
+                    class="mb-4"
+                >
+                    <USelect
+                        v-model="state.category"
+                        placeholder="Select"
+                        :options="getValues(TransactionCategory)"
+                    />
                 </UFormGroup>
 
-                <UButton type="submit" color="black" variant="solid" label="Save" :loading="isLoading" />
+                <UButton
+                    type="submit"
+                    color="black"
+                    variant="solid"
+                    label="Save"
+                    :loading="isLoading"
+                />
             </UForm>
         </UCard>
     </UModal>
@@ -40,7 +96,7 @@ import {getValues, hasErrorMessage} from "~/lib/enum";
 
 const props = defineProps<{
     modelValue: boolean
-}>()
+}>();
 const emit = defineEmits(['update:modelValue', 'save']);
 
 const defaultSchema = z.object({
@@ -60,20 +116,18 @@ const savingSchema = z.object({ type: z.literal('Saving') });
 const schema = z.intersection(
     z.discriminatedUnion('type', [incomeSchema, expenseSchema, investmentSchema, savingSchema]),
     defaultSchema
-)
+);
 
 const form = ref();
 const isLoading = ref(false);
 const supabase = useSupabaseClient<Database>();
-const toast = useToast();
+const { toastError, toastSuccess } = useAppToast();
 
 const notifyError = (e: any) => {
     if (hasErrorMessage(e)) {
-        toast.add({
+        toastError({
             title: 'Transaction not saved',
             description: e.message,
-            icon: 'i-heroicons-exclamation-circle',
-            color: 'red',
         });
     }
 };
@@ -91,10 +145,7 @@ const saveForm = async () => {
             return;
         }
 
-        toast.add({
-            title: 'Transaction saved',
-            icon: 'i-heroicons-check-circle',
-        });
+        toastSuccess({title: 'Transaction saved',});
         isOpen.value = false;
         emit('save');
 
@@ -104,7 +155,7 @@ const saveForm = async () => {
     } finally {
         isLoading.value = false;
     }
-}
+};
 
 const initialState = {
     type: undefined,
@@ -119,7 +170,7 @@ const state = ref<TablesInsert<'transactions'>>({ ...initialState });
 const resetForm = () => {
     state.value = { ...initialState };
     form.value.clear();
-}
+};
 
 const isOpen = computed({
     get: () => props.modelValue,
@@ -130,7 +181,7 @@ const isOpen = computed({
 
         emit('update:modelValue', value);
     },
-})
+});
 </script>
 
 <style scoped lang="postcss">

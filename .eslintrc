@@ -1,0 +1,51 @@
+{
+    "root": true,
+    "env": {
+        "node": true,
+        "browser": true
+    },
+    "ignorePatterns": ["types/supabase.ts"],
+    "extends": [
+        "@nuxt/eslint-config"
+    ],
+    "rules": {
+        "semi": "error",
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 1
+            }
+        ],
+        "brace-style": [
+            "error",
+            "1tbs"
+        ],
+        "eol-last": [
+            "error",
+            "always"
+        ],
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "no-trailing-spaces": "error",
+        "padded-blocks": [
+            "error",
+            {
+                "classes": "never"
+            }
+        ],
+        "id-match": [
+            "error",
+            "^[a-zA-Z0-9-_]+$"
+        ],
+        "vue/html-indent": [
+            "error",
+            4
+        ],
+        "vue/no-multiple-template-root": "off"
+    }
+}

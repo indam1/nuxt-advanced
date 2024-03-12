@@ -5,11 +5,30 @@
         </template>
 
         <form @submit.prevent="handleLogin">
-            <UFormGroup label="Email" name="email" class="mb-4" :required="true" help="You will receive an email with the confirmation link">
-                <UInput type="email" placeholder="Email" required v-model="email" />
+            <UFormGroup
+                label="Email"
+                name="email"
+                class="mb-4"
+                :required="true"
+                help="You will receive an email with the confirmation link"
+            >
+                <UInput
+                    v-model="email"
+                    type="email"
+                    placeholder="Email"
+                    required
+                />
             </UFormGroup>
 
-            <UButton type="submit" variant="solid" color="black" :loading="pending" :disabled="pending">Sign-in</UButton>
+            <UButton
+                type="submit"
+                variant="solid"
+                color="black"
+                :loading="pending"
+                :disabled="pending"
+            >
+                Sign-in
+            </UButton>
         </form>
     </UCard>
     <UCard v-else>
@@ -18,7 +37,7 @@
         </template>
 
         <div class="text-center">
-            <p>We have sent an email to <strong>{{email}}</strong> with a link to sign-in</p>
+            <p>We have sent an email to <strong>{{ email }}</strong> with a link to sign-in</p>
             <p>
                 <strong>Important:</strong> The link will expire in 5 minutes.
             </p>
@@ -31,8 +50,10 @@ import type {Database} from "~/types/supabase";
 const success = ref(false);
 const email = ref('');
 const pending = ref(false);
-const toast = useToast();
+const { toastError } = useAppToast();
 const supabase = useSupabaseClient<Database>();
+
+useRedirectIfAuthenticated();
 
 const handleLogin = async () => {
     pending.value = true;
@@ -41,17 +62,15 @@ const handleLogin = async () => {
         const { error } = await supabase.auth.signInWithOtp({
             email: email.value,
             options: {
-                emailRedirectTo: "http://localhost:3000",
+                emailRedirectTo: "http://localhost:3000/confirm",
             },
-        })
+        });
 
         if (error) {
-            toast.add({
+            toastError({
                 title: 'Error authenticating',
-                icon: 'i-heroicons-exclamation-circle',
                 description: error.message,
-                color: 'red',
-            })
+            });
             return;
         }
 
@@ -60,7 +79,7 @@ const handleLogin = async () => {
     } finally {
         pending.value = false;
     }
-}
+};
 </script>
 
 <style scoped lang="postcss">

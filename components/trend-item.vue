@@ -1,17 +1,39 @@
 <template>
     <div>
-        <div class="font-bold" :class="[color]">{{ title }}</div>
+        <div
+            class="font-bold"
+            :class="[color]"
+        >
+            {{ title }}
+        </div>
 
         <div class="text-2xl font-extrabold text-black dark:text-white mb-2">
-            <USkeleton class="h-8 w-full" v-if="loading"/>
-            <div v-else>{{ currency }}</div>
+            <USkeleton
+                v-if="loading"
+                class="h-8 w-full"
+            />
+            <div v-else>
+                {{ currency }}
+            </div>
         </div>
 
         <div>
-            <USkeleton class="h-6 w-full" v-if="loading"/>
-            <div v-else class="flex space-x-1 items-center text-sm">
-                <UIcon :name="icon" class="w-6 h-6" :class="[trendingUp ? 'green' : 'red']"/>
-                <div class="text-gray-500 dark:text-gray-400">{{ percentageTrend }}% vs last period</div>
+            <USkeleton
+                v-if="loading"
+                class="h-6 w-full"
+            />
+            <div
+                v-else
+                class="flex space-x-1 items-center text-sm"
+            >
+                <UIcon
+                    :name="icon"
+                    class="w-6 h-6"
+                    :class="[trendingUp ? 'green' : 'red']"
+                />
+                <div class="text-gray-500 dark:text-gray-400">
+                    {{ percentageTrend }}% vs last period
+                </div>
             </div>
         </div>
     </div>
@@ -39,7 +61,7 @@ const percentageTrend = computed(() => {
 
     const ratio = Math.abs(props.amount - props.lastAmount) / Math.min(props.amount, props.lastAmount);
     return Math.ceil(ratio * 100);
-})
+});
 </script>
 
 <style scoped lang="postcss">

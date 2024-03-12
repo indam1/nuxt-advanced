@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto max-w-4xl">
-        <AppHeader/>
+        <AppHeader />
         <main class="my-10">
             <slot />
         </main>
@@ -20,7 +20,7 @@ useHead({
             crossorigin: ''
         }
     ]
-})
+});
 </script>
 
 <style lang="postcss">

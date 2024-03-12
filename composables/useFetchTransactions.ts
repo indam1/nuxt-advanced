@@ -1,14 +1,30 @@
 import type {Database, Tables} from '~/types/supabase';
 
-export const useFetchTransactions = (period: any) => {
+export const useFetchTransactions = async (period: any) => {
     const supabase = useSupabaseClient<Database>();
-    const transactions = ref<Array<Tables<'transactions'>>>([]);
-    const pending = ref(false);
 
-    const incomeTransactions = computed<Array<Tables<'transactions'>>>(
+    const { data: transactions , pending, refresh } = await useAsyncData(
+        `transactions-${period.value.from.toDateString()}-${period.value.to.toDateString()}`,
+        async () => {
+            const { data } = await supabase
+                .from('transactions')
+                .select()
+                .gte('created_at', period.value.from.toISOString())
+                .lte('created_at', period.value.to.toISOString())
+                .order('created_at', { ascending: false })
+                .returns<Array<Tables<'transactions'>>>();
+            return data ?? [];
+        },
+        {
+            default: () => [],
+            watch: [period],
+        }
+    );
+
+    const incomeTransactions = computed(
         () => transactions.value.filter(transaction => transaction.type === 'Income')
     );
-    const expenseTransactions = computed<Array<Tables<'transactions'>>>(
+    const expenseTransactions = computed(
         () => transactions.value.filter(transaction => transaction.type === 'Expense')
     );
 
@@ -26,44 +42,10 @@ export const useFetchTransactions = (period: any) => {
         )
     );
 
-    const fetchTransactions = async () => {
-        pending.value = true;
-
-        try {
-            const periodValue = toValue(period);
-            const { data} = await useAsyncData(`transactions-${periodValue.from.toDateString()}-${periodValue.to.toDateString()}`, async () => {
-                const { data, error } = await supabase
-                    .from('transactions')
-                    .select()
-                    .gte('created_at', periodValue.from.toISOString())
-                    .lte('created_at', periodValue.to.toISOString())
-                    .order('created_at', { ascending: false })
-                    .returns<Array<Tables<'transactions'>>>();
-
-                if (error) {
-                    return [];
-                }
-
-                return data;
-            });
-
-            return data.value;
-
-        } finally {
-            pending.value = false;
-        }
-    }
-
-    const refresh = async () => transactions.value = (await fetchTransactions() ?? []);
-
-    watch(period, async () => await refresh());
-
     const transactionsGroupedByDate = computed(() => {
         return transactions.value.reduce<Record<string, Array<Tables<'transactions'>>>>(
             (acc, transaction) => {
-                const date = new Date(transaction.created_at)
-                    .toISOString()
-                    .split('T')[0];
+                const date = new Date(transaction.created_at).toISOString().split('T')[0];
                 if (!acc[date]) {
                     acc[date] = [];
                 }
@@ -89,5 +71,5 @@ export const useFetchTransactions = (period: any) => {
         },
         refresh,
         pending,
-    }
-}
+    };
+};
