@@ -13,7 +13,7 @@
                 :ui="{ item: { disabled: 'cursor-text select-text' }, width: 'w-64' }"
             >
                 <UAvatar
-                    :src="url ?? 'https://avatars.githubusercontent.com/u/739984?v=4'"
+                    :src="url"
                     alt="Avatar"
                 />
 

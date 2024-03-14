@@ -2,6 +2,7 @@ import type {Database, Tables} from '~/types/supabase';
 
 export const useFetchTransactions = async (period: any) => {
     const supabase = useSupabaseClient<Database>();
+    const visibility = useDocumentVisibility();
 
     const { data: transactions , pending, refresh } = await useAsyncData(
         `transactions-${period.value.from.toDateString()}-${period.value.to.toDateString()}`,
@@ -54,6 +55,12 @@ export const useFetchTransactions = async (period: any) => {
                 return acc;
             }, {}
         );
+    });
+
+    watch(visibility, async () => {
+        if (visibility.value === 'visible') {
+            await refresh();
+        }
     });
 
     return {

@@ -1,6 +1,7 @@
 import type {Database} from "~/types/supabase";
+import type {TransactionViewOption} from "~/constants";
 
-export const useSavingUser = (state: { name?: string, email?: string, transactionView?: string }) => {
+export const useSavingUser = (state: { name?: string, email?: string, transactionView?: TransactionViewOption }) => {
     const user = useSupabaseUser();
     const pending = ref(false);
     const { toastError, toastSuccess } = useAppToast();

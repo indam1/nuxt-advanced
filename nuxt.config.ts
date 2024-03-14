@@ -7,10 +7,16 @@ export default defineNuxtConfig({
             enabled: true
         }
     },
+    runtimeConfig: {
+        public: {
+            baseUrl: process.env.BASE_URL,
+        }
+    },
     modules: [
         '@nuxt/ui',
         '@nuxtjs/supabase',
-        '@nuxtjs/eslint-module'
+        '@nuxtjs/eslint-module',
+        '@vueuse/nuxt',
     ],
     supabase: {
         redirect: true,

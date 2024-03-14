@@ -17,14 +17,14 @@
             title="Income"
             :amount="totalIncome"
             :last-amount="prevTotalIncome"
-            :loading="pending"
+            :loading="pending || prevPending"
         />
         <TrendItem
             color="red"
             title="Expense"
             :amount="totalExpense"
             :last-amount="prevTotalExpense"
-            :loading="prevPending"
+            :loading="prevPending || pending"
         />
         <TrendItem
             color="green"
@@ -107,7 +107,8 @@ import {getValues} from "~/lib/enum";
 import TrendItem from "~/components/TrendItem.vue";
 import TransactionItem from "~/components/TransactionItem.vue";
 
-const selectedView = ref(TransactionViewOption.Monthly);
+const { transactionView } = useTransactionView();
+const selectedView = ref(transactionView);
 const isOpen = ref(false);
 const { current, previous } = useSelectedTimePeriod(selectedView);
 

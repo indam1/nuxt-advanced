@@ -1,7 +1,7 @@
 import {TransactionViewOption} from "~/constants";
 import {endOfDay, endOfMonth, endOfYear, startOfDay, startOfMonth, startOfYear, sub} from 'date-fns';
 
-export const useSelectedTimePeriod = (period: any) => {
+export const useSelectedTimePeriod = (period: Ref<TransactionViewOption>) => {
     const data = computed(() => ({
         date: new Date(),
         period: period.value,

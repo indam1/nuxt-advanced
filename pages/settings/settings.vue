@@ -30,8 +30,8 @@
 import { z } from 'zod';
 import {TransactionViewOption} from '~/constants';
 import {getValues} from "~/lib/enum";
-const user = useSupabaseUser();
-const transactionView = computed(() => user.value?.user_metadata?.transaction_view ?? TransactionViewOption.Monthly);
+const { transactionView } = useTransactionView();
+
 const state = ref({
     transactionView: transactionView.value,
 });

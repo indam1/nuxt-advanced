@@ -7,7 +7,7 @@
                 help="This would be blank by default"
             >
                 <UAvatar
-                    :src="url ?? 'https://avatars.githubusercontent.com/u/739984?v=4'"
+                    :src="url"
                     size="3xl"
                 />
             </UFormGroup>
@@ -45,7 +45,6 @@ import type {UInput} from "#components";
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
-// We need to get the actual avatar URL
 const { toastSuccess, toastError } = useAppToast();
 const { url } = useAvatarUrl();
 
