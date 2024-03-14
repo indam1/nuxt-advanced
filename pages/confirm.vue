@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-useRedirectIfAuthenticated('/');
+useRedirectIfAuthenticated('/mybank');
 </script>
 
 <style scoped lang="postcss">

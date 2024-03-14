@@ -1,7 +1,7 @@
 <template>
     <UCard v-if="!success">
         <template #header>
-            Sign-in to Finance tracker
+            Sign-in to Usano Bank
         </template>
 
         <form @submit.prevent="handleLogin">
@@ -45,6 +45,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    layout: 'registration',
+});
+
 import type {Database} from "~/types/supabase";
 const success = ref(false);
 const email = ref('');

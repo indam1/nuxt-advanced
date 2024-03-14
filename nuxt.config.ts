@@ -19,7 +19,11 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
     ],
     supabase: {
-        redirect: true,
+        redirectOptions: {
+            callback: '/confirm',
+            login: '/login',
+            include: ['/mybank(/*)?', '/settings(/*)?'],
+        }
     },
     typescript: {
         strict: true,

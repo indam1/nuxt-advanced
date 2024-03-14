@@ -32,7 +32,7 @@
                         trailing-icon="i-heroicons-ellipsis-horizontal"
                         :loading="isLoading"
                     />
-                    <TransactionModal
+                    <LazyTransactionModal
                         v-model="isOpen"
                         :transaction="transaction"
                         @save="emit('transactionedit')"
