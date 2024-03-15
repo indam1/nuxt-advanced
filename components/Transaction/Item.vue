@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-3 py-4 border-b border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100">
+    <div class="grid grid-cols-3 py-4 border-b border-gray-800 text-gray-800">
         <div class="flex items-center justify-between space-x-4 col-span-2">
             <div class="flex items-center space-x-1">
                 <UIcon
@@ -27,8 +27,6 @@
                     :popper="{ placement: 'bottom-start' }"
                 >
                     <UButton
-                        color="white"
-                        variant="ghost"
                         trailing-icon="i-heroicons-ellipsis-horizontal"
                         :loading="isLoading"
                     />

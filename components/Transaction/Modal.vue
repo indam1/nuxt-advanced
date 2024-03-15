@@ -79,8 +79,6 @@
 
                 <UButton
                     type="submit"
-                    color="black"
-                    variant="solid"
                     label="Save"
                     :loading="isLoading"
                 />

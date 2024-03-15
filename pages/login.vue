@@ -1,7 +1,9 @@
 <template>
-    <UCard v-if="!success">
+    <UCard
+        v-if="!success"
+    >
         <template #header>
-            Sign-in to Usano Bank
+            Sign-in to UsanoFake Bank
         </template>
 
         <form @submit.prevent="handleLogin">
@@ -22,8 +24,6 @@
 
             <UButton
                 type="submit"
-                variant="solid"
-                color="black"
                 label="Sign-in"
                 :loading="pending"
                 :disabled="pending"

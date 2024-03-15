@@ -54,7 +54,7 @@
             <h2 class="text-2xl font-extrabold">
                 Transactions
             </h2>
-            <div class="text-gray-500 dark:text-gray-400">
+            <div class="text-gray-500">
                 You have {{ incomeCount }} incomes and {{ expenseCount }} expenses this period
             </div>
         </div>
@@ -65,8 +65,6 @@
             />
             <UButton
                 icon="i-heroicons-plus-circle"
-                color="white"
-                variant="solid"
                 label="Add"
                 @click="isOpen = true"
             />

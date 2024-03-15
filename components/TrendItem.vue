@@ -7,7 +7,7 @@
             {{ title }}
         </div>
 
-        <div class="text-2xl font-extrabold text-black dark:text-white mb-2">
+        <div class="text-2xl font-extrabold text-gray-800 mb-2">
             <USkeleton
                 v-if="loading"
                 class="h-8 w-full"
@@ -31,7 +31,7 @@
                     class="w-6 h-6"
                     :class="[trendingUp ? 'green' : 'red']"
                 />
-                <div class="text-gray-500 dark:text-gray-400">
+                <div class="text-gray-600">
                     {{ percentageTrend }}% vs last period
                 </div>
             </div>
@@ -65,10 +65,10 @@ const percentageTrend = computed(() => {
 
 <style scoped lang="postcss">
 .green {
-    @apply text-green-600 dark:text-green-400;
+    @apply text-green-400;
 }
 
 .red {
-    @apply text-red-600 dark:text-red-400;
+    @apply text-red-400;
 }
 </style>

@@ -1,9 +1,11 @@
 <template>
-    <NuxtLayout>
-        <NuxtPage />
-    </NuxtLayout>
-    <MainFooter />
-    <UNotifications />
+    <div class="flex flex-col min-h-screen">
+        <NuxtLayout>
+            <NuxtPage />
+        </NuxtLayout>
+        <MainFooter class="mt-auto" />
+        <LazyUNotifications />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -28,6 +30,6 @@ body {
 }
 
 body {
-    @apply dark:bg-gray-900 bg-white
+    @apply bg-neutral-200 text-neutral-800 text-opacity-80
 }
 </style>
