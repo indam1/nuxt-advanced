@@ -3,8 +3,6 @@
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
-        <MainFooter class="mt-auto" />
-        <LazyUNotifications />
     </div>
 </template>
 

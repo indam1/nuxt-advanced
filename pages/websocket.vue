@@ -6,7 +6,7 @@
             class="flex-grow flex flex-col justify-end px-4 py-8"
         >
             <div
-                v-for="message in store.messages"
+                v-for="message in messages"
                 :key="message.date"
                 class="flex items-center mb-4"
             >
@@ -16,20 +16,12 @@
                     </p>
                     <div class="flex items-center">
                         <img
-                            :src="'https://www.gravatar.com/avatar/' + encodeURIComponent(message.user + rand) + '?s=512&d=monsterid'"
+                            :src="'https://www.gravatar.com/avatar/' + encodeURIComponent(message.user + Math.random()) + '?s=512&d=monsterid'"
                             alt="Avatar"
                             class="w-8 h-8 rounded-full"
                         >
                         <div class="ml-2 bg-gray-800 rounded-lg p-2">
-                            <p
-                                v-if="message.formattedText"
-                                class="overflow-x-scroll"
-                                v-html="message.formattedText"
-                            />
-                            <p
-                                v-else
-                                class="text-white"
-                            >
+                            <p class="text-white">
                                 {{ message.text }}
                             </p>
                         </div>
@@ -47,29 +39,23 @@
         >
             <div class="w-full min-w-6">
                 <input
-                    v-model="store.message"
+                    v-model="messageInput"
                     type="text"
                     placeholder="Type your message..."
                     class="w-full rounded-l-lg px-4 py-2 bg-gray-700 text-white focus:outline-none focus:ring focus:border-blue-300"
-                    @keydown.enter="send"
+                    @keydown.enter="sendMessage"
                 >
             </div>
             <div class="flex">
                 <button
                     class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4"
-                    @click="send"
+                    @click="sendMessage"
                 >
                     Send
                 </button>
                 <button
                     class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4"
-                    @click="ping"
-                >
-                    Ping
-                </button>
-                <button
-                    class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4"
-                    @click="connect"
+                    @click="open"
                 >
                     Reconnect
                 </button>
@@ -85,17 +71,40 @@
 </template>
 
 <script setup lang="ts">
-// ToDo add Typescript
-let ws: WebSocket;
+definePageMeta({
+    layout: 'websocket',
+});
+const messageInput = ref<string>('');
+const messages = ref<Array<any>>([]);
 
-const store = reactive({
-    message: "",
-    messages: [],
+const { send, open } = useWebSocket('ws://localhost:3000/_ws', {
+    autoReconnect: {
+        retries: 3,
+        delay: 1000,
+        onFailed() {
+            alert('Failed to connect WebSocket after 3 retries');
+        },
+    },
+    heartbeat: {
+        message: 'ping',
+        interval: 30 * 1000,
+        pongTimeout: 1000,
+    },
+    onMessage(ws, event) {
+        const { message = "" } = event.data.startsWith("{")
+            ? JSON.parse(event.data)
+            : { message: event.data };
+        log('system', message);
+    },
 });
 
 const scroll = () => {
     nextTick(() => {
         const el = document.querySelector("#messages");
+        if (!el) {
+            console.error(`#messages not found by querySelector`);
+            return;
+        }
         el.scrollTop = el.scrollHeight;
         el.scrollTo({
             top: el.scrollHeight,
@@ -104,77 +113,29 @@ const scroll = () => {
     });
 };
 
-const format = async () => {
-    for (const message of store.messages) {
-        if (!message._fmt && message.text.startsWith("{")) {
-            message._fmt = true;
-            const { codeToHtml } = await import("https://esm.sh/shiki@1.0.0");
-            const str = JSON.stringify(JSON.parse(message.text), null, 2);
-            message.formattedText = await codeToHtml(str, {
-                lang: "json",
-                theme: "dark-plus",
-            });
-        }
-    }
-};
-
 const log = (user, ...args) => {
     console.log("[ws]", user, ...args);
-    store.messages.push({
+    messages.value.push({
         text: args.join(" "),
         formattedText: "",
         user: user,
         date: new Date().toLocaleString(),
     });
     scroll();
-    format();
-};
-
-const connect = async () => {
-    const isSecure = location.protocol === "https:";
-    const url = (isSecure ? "wss://" : "ws://") + location.host + "/_ws";
-    if (ws) {
-        log("ws", "Closing previous connection before reconnecting...");
-        ws.close();
-        clear();
-    }
-
-    log("ws", "Connecting to", url, "...");
-    ws = new WebSocket(url);
-
-    ws.addEventListener("message", (event) => {
-        const { user = "system", message = "" } = event.data.startsWith("{")
-            ? JSON.parse(event.data)
-            : { message: event.data };
-        log(
-            user,
-            typeof message === "string" ? message : JSON.stringify(message),
-        );
-    });
-
-    await new Promise((resolve) => ws.addEventListener("open", resolve));
-    log("ws", "Connected!");
 };
 
 const clear = () => {
-    store.messages.splice(0, store.messages.length);
+    messages.value.splice(0, messages.value.length);
     log("system", "previous messages cleared");
 };
 
-const send = () => {
-    console.log("sending message...");
-    if (store.message) {
-        ws.send(store.message);
+const sendMessage = () => {
+    if (messageInput.value) {
+        console.log(`sending message: ${messageInput.value}`);
+        send(messageInput.value);
     }
-    store.message = "";
+    messageInput.value = '';
 };
-
-const ping = () => {
-    log("ws", "Sending ping");
-    ws.send("ping");
-};
-
-await connect();
 </script>
 
 <style scoped lang="postcss">
