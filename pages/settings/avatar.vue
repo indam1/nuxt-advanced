@@ -38,8 +38,6 @@
 </template>
 
 <script setup lang="ts">
-
-import type {UInput} from "#components";
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
@@ -83,8 +81,6 @@ const saveAvatar = async () => {
                 toastSuccess({ title: 'Old avatar deleted' });
             }
         }
-
-        input.value = null;
 
         toastSuccess({ title: 'New avatar uploaded' });
 

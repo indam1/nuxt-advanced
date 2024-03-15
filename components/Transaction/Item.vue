@@ -42,15 +42,14 @@
 </template>
 
 <script setup lang="ts">
-import type {Database, Tables} from "~/types/supabase";
 const props = defineProps<{
     transaction: Tables<'transactions'>
 }>();
 
 const emit = defineEmits(['transactiondelete', 'transactionedit']);
-const isIncome = computed(() => props.transaction.type === 'Income');
-const icon = computed(() => isIncome.value ? 'i-heroicons-arrow-up-right' : 'i-heroicons-arrow-down-left');
-const iconColor = computed(() => isIncome.value ? 'text-green-600' : 'text-red-600');
+const isProfit = computed(() => [TransactionType.Income, TransactionType.Investment, TransactionType.Saving].includes(props.transaction.type));
+const icon = computed(() => isProfit.value ? 'i-heroicons-arrow-up-right' : 'i-heroicons-arrow-down-left');
+const iconColor = computed(() => isProfit.value ? 'text-green-600' : 'text-red-600');
 
 const { currency } = useCurrency(props.transaction.amount);
 

@@ -1,5 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    nitro: {
+        experimental: {
+            websocket: true,
+        },
+    },
     colorMode: {
         preference: 'light',
     },
@@ -23,8 +28,8 @@ export default defineNuxtConfig({
     ],
     supabase: {
         redirectOptions: {
-            callback: '/confirm',
-            login: '/login',
+            callback: '/auth/confirm',
+            login: '/auth/login',
             include: ['/mybank(/*)?', '/settings(/*)?'],
         }
     },

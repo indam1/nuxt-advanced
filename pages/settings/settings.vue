@@ -1,7 +1,7 @@
 <template>
     <UForm
         :state="state"
-        :schema="schema"
+        :schema="transactionViewSchema"
         @submit="saveProfile"
     >
         <UFormGroup
@@ -25,20 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import { z } from 'zod';
-import {TransactionViewOption} from '~/constants';
-import {getValues} from "~/lib/enum";
 const { transactionView } = useTransactionView();
 
-const state = ref({
-    transactionView: transactionView.value,
-});
-const schema = z.object({
-    transactionView: z.enum(getValues(TransactionViewOption))
-});
+const state = ref({ transactionView: transactionView.value });
+const disabled = computed(() => pending.value || (transactionView.value === state.value.transactionView));
 
 const { pending, saveProfile } = useSavingUser(state.value);
-const disabled = computed(() => pending.value || (transactionView.value === state.value.transactionView));
 </script>
 
 <style scoped lang="postcss">

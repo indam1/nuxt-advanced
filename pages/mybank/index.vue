@@ -17,33 +17,33 @@
             title="Income"
             :amount="totalIncome"
             :last-amount="prevTotalIncome"
-            :loading="pending || prevPending"
+            :loading="pending"
         />
         <TrendItem
             color="red"
             title="Expense"
             :amount="totalExpense"
             :last-amount="prevTotalExpense"
-            :loading="prevPending || pending"
+            :loading="pending"
         />
         <TrendItem
             color="green"
             title="Investments"
-            :amount="4000"
-            :last-amount="3000"
-            :loading="false"
+            :amount="totalInvestment"
+            :last-amount="prevTotalInvestment"
+            :loading="pending"
         />
         <TrendItem
             color="red"
             title="Saving"
-            :amount="4000"
-            :last-amount="4100"
-            :loading="false"
+            :amount="totalSaving"
+            :last-amount="prevTotalSaving"
+            :loading="pending"
         />
     </section>
 
     <USkeleton
-        v-if="prevPending || pending"
+        v-if="pending"
         class="h-14 w-full mb-10"
     />
     <section
@@ -71,7 +71,7 @@
         </div>
     </section>
 
-    <section v-if="!pending">
+    <section v-if="!currentPending">
         <div
             v-for="(transactionOnDate, date) in byDate"
             :key="date"
@@ -100,22 +100,22 @@
 </template>
 
 <script setup lang="ts">
-import {TransactionViewOption} from "~/constants";
-import {getValues} from "~/lib/enum";
-
 const { transactionView } = useTransactionView();
 const selectedView = ref(transactionView);
 const isOpen = ref(false);
 const { current, previous } = useSelectedTimePeriod(selectedView);
+const pending = computed(() => currentPending.value || prevPending.value);
 
 const {
-    pending,
+    pending: currentPending,
     refresh,
     transactions: {
         incomeCount,
         expenseCount,
         totalIncome,
         totalExpense,
+        totalSaving,
+        totalInvestment,
         grouped: { byDate },
     },
 } = await useFetchTransactions(current);
@@ -125,6 +125,8 @@ const {
     transactions: {
         totalIncome: prevTotalIncome,
         totalExpense: prevTotalExpense,
+        totalSaving: prevTotalSaving,
+        totalInvestment: prevTotalInvestment,
     },
 } = await useFetchTransactions(previous);
 </script>

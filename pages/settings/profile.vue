@@ -1,7 +1,7 @@
 <template>
     <UForm
         :state="state"
-        :schema="schema"
+        :schema="profileChangeSchema"
         @submit="saveProfile"
     >
         <UFormGroup
@@ -31,17 +31,10 @@
 </template>
 
 <script setup lang="ts">
-import {z} from "zod";
-
 const user = useSupabaseUser();
 const state = ref<{ name: string, email: string }>({
     name: user.value?.user_metadata?.full_name ?? '',
     email: user.value?.email ?? '',
-});
-
-const schema = z.object({
-    name: z.string().min(2).optional(),
-    email: z.string().email(),
 });
 
 const disabled = computed(() => pending.value || (((user.value?.email ?? '') === state.value.email) && (user?.value?.user_metadata?.full_name ?? '') === state.value.name));

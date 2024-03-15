@@ -6,6 +6,9 @@
         >
             UsanoFake Bank
         </NuxtLink>
+
+        <MainNavBar />
+
         <UDropdown
             mode="hover"
             :popper="{ placement: 'bottom-end' }"
@@ -16,7 +19,7 @@
                 wrapper: 'rounded hover:bg-gray-200',
             }"
         >
-            <div class="flex gap-4 items-center p-2 cursor-default">
+            <div class="flex gap-4 items-center p-2 cursor-default text-blue-500 personal-account">
                 Personal Account
                 <UAvatar
                     v-if="user"
@@ -67,12 +70,12 @@ const items = [
         {
             label: 'My account',
             icon: 'i-heroicons-user-circle',
-            click: () => navigateTo('/mybank'),
+            to: '/mybank',
         },
         {
             label: 'Settings',
             icon: 'i-heroicons-cog-8-tooth',
-            click: () => navigateTo('/settings/profile'),
+            to: '/settings/profile',
         },
         {
             disabled: !user.value,
@@ -80,8 +83,8 @@ const items = [
             icon: 'i-heroicons-arrow-left-on-rectangle',
             click: async () => {
                 await supabase.auth.signOut();
-                return navigateTo('/login');
-            }
+                navigateTo('/auth/login');
+            },
         }
     ]
 ];

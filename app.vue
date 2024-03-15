@@ -32,4 +32,8 @@ body {
 body {
     @apply bg-neutral-200 text-neutral-800 text-opacity-80
 }
+
+.personal-account {
+    font-family: "Segoe UI", sans-serif;
+}
 </style>

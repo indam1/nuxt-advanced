@@ -49,41 +49,47 @@ definePageMeta({
     layout: 'registration',
 });
 
-import type {Database} from "~/types/supabase";
-const success = ref(false);
 const email = ref('');
-const pending = ref(false);
-const { toastError } = useAppToast();
-const supabase = useSupabaseClient<Database>();
-const { baseUrl } = useRuntimeConfig().public;
+const { success, pending, handleLogin } = useLoginHandling(email);
 
 useRedirectIfAuthenticated();
 
-const handleLogin = async () => {
-    pending.value = true;
+function useLoginHandling(email: Ref<string>) {
+    const success = ref(false);
+    const pending = ref(false);
 
-    try {
-        const { error } = await supabase.auth.signInWithOtp({
-            email: email.value,
-            options: {
-                emailRedirectTo: `${baseUrl}/confirm`,
-            },
-        });
+    const { toastError } = useAppToast();
+    const { baseUrl } = useRuntimeConfig().public;
+    const supabase = useSupabaseClient<Database>();
 
-        if (error) {
-            toastError({
-                title: 'Error authenticating',
-                description: error.message,
+    const handleLogin = async () => {
+        pending.value = true;
+
+        try {
+            const { error } = await supabase.auth.signInWithOtp({
+                email: email.value,
+                options: {
+                    emailRedirectTo: `${baseUrl}/auth/confirm`,
+                },
             });
-            return;
+
+            if (error) {
+                toastError({
+                    title: 'Error authenticating',
+                    description: error.message,
+                });
+                return;
+            }
+
+            success.value = true;
+
+        } finally {
+            pending.value = false;
         }
+    };
 
-        success.value = true;
-
-    } finally {
-        pending.value = false;
-    }
-};
+    return { pending, success, handleLogin };
+}
 </script>
 
 <style scoped lang="postcss">

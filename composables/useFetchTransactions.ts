@@ -1,5 +1,3 @@
-import type {Database, Tables} from '~/types/supabase';
-
 export const useFetchTransactions = async (period: any) => {
     const supabase = useSupabaseClient<Database>();
     const visibility = useDocumentVisibility();
@@ -23,14 +21,22 @@ export const useFetchTransactions = async (period: any) => {
     );
 
     const incomeTransactions = computed(
-        () => transactions.value.filter(transaction => transaction.type === 'Income')
+        () => transactions.value.filter(transaction => transaction.type === TransactionType.Income)
     );
     const expenseTransactions = computed(
-        () => transactions.value.filter(transaction => transaction.type === 'Expense')
+        () => transactions.value.filter(transaction => transaction.type === TransactionType.Expense)
+    );
+    const savingTransactions = computed(
+        () => transactions.value.filter(transaction => transaction.type === TransactionType.Saving)
+    );
+    const investmentTransactions = computed(
+        () => transactions.value.filter(transaction => transaction.type === TransactionType.Investment)
     );
 
     const incomeCount = computed(() => incomeTransactions.value.length);
     const expenseCount = computed(() => expenseTransactions.value.length);
+    const savingCount = computed(() => savingTransactions.value.length);
+    const investmentCount = computed(() => investmentTransactions.value.length);
 
     const totalIncome = computed(
         () => incomeTransactions.value.reduce<number>(
@@ -39,6 +45,16 @@ export const useFetchTransactions = async (period: any) => {
     );
     const totalExpense = computed(
         () => expenseTransactions.value.reduce<number>(
+            (acc, transaction) => acc + transaction.amount, 0
+        )
+    );
+    const totalSaving = computed(
+        () => savingTransactions.value.reduce<number>(
+            (acc, transaction) => acc + transaction.amount, 0
+        )
+    );
+    const totalInvestment = computed(
+        () => investmentTransactions.value.reduce<number>(
             (acc, transaction) => acc + transaction.amount, 0
         )
     );
@@ -71,10 +87,16 @@ export const useFetchTransactions = async (period: any) => {
             },
             incomeTransactions,
             expenseTransactions,
+            savingTransactions,
+            investmentTransactions,
             incomeCount,
             expenseCount,
+            savingCount,
+            investmentCount,
             totalIncome,
             totalExpense,
+            totalSaving,
+            totalInvestment,
         },
         refresh,
         pending,

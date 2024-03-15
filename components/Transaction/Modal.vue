@@ -8,7 +8,7 @@
             <UForm
                 ref="form"
                 :state="state"
-                :schema="schema"
+                :schema="transactionModalSchema"
                 @submit="saveForm"
             >
                 <UFormGroup
@@ -88,50 +88,19 @@
 </template>
 
 <script setup lang="ts">
-import { TransactionCategory, TransactionType } from "~/constants";
-import type {Database, Tables, TablesInsert} from "~/types/supabase";
-import { z } from 'zod';
-import {getValues, hasErrorMessage} from "~/lib/enum";
-
 const props = defineProps<{
-    modelValue: boolean,
     transaction?: Tables<'transactions'>
 }>();
-const isEditing = computed(() => !!props.transaction);
-const emit = defineEmits(['update:modelValue', 'save']);
-
-const defaultSchema = z.object({
-    created_at: z.string(),
-    description: z.string().optional(),
-    amount: z.number().positive('Amount needs to be more than 0'),
-});
-
-const incomeSchema = z.object({ type: z.literal('Income') });
-const expenseSchema = z.object({
-    type: z.literal('Expense'),
-    category: z.enum(getValues(TransactionCategory)),
-});
-const investmentSchema = z.object({ type: z.literal('Investment') });
-const savingSchema = z.object({ type: z.literal('Saving') });
-
-const schema = z.intersection(
-    z.discriminatedUnion('type', [incomeSchema, expenseSchema, investmentSchema, savingSchema]),
-    defaultSchema
-);
+const emit = defineEmits(['save']);
+const isOpen = defineModel<boolean>();
 
 const form = ref();
 const isLoading = ref(false);
+
+const isEditing = computed(() => !!props.transaction);
+
 const supabase = useSupabaseClient<Database>();
 const { toastError, toastSuccess } = useAppToast();
-
-const notifyError = (e: any) => {
-    if (hasErrorMessage(e)) {
-        toastError({
-            title: 'Transaction not saved',
-            description: e.message,
-        });
-    }
-};
 
 const saveForm = async () => {
     if (form.value.errors.length) {
@@ -142,7 +111,12 @@ const saveForm = async () => {
     try {
         const { error } = await supabase.from('transactions').upsert({ ...state.value, id: props.transaction?.id });
         if (error) {
-            notifyError(error);
+            if (hasErrorMessage(error)) {
+                toastError({
+                    title: 'Transaction not saved',
+                    description: error.message,
+                });
+            }
             return;
         }
 
@@ -151,7 +125,12 @@ const saveForm = async () => {
         emit('save');
 
     } catch (e) {
-        notifyError(e);
+        if (hasErrorMessage(e)) {
+            toastError({
+                title: 'Transaction not saved',
+                description: e.message,
+            });
+        }
 
     } finally {
         isLoading.value = false;
@@ -179,15 +158,10 @@ const resetForm = () => {
     form.value.clear();
 };
 
-const isOpen = computed({
-    get: () => props.modelValue,
-    set: (value) => {
-        if (!value) {
-            resetForm();
-        }
-
-        emit('update:modelValue', value);
-    },
+watch(isOpen, (value) => {
+    if (!value) {
+        resetForm();
+    }
 });
 </script>
 

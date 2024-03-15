@@ -1,5 +1,3 @@
-import {TransactionViewOption} from "~/constants";
-
 export function useTransactionView() {
     const user = useSupabaseUser();
 

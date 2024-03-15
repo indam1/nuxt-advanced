@@ -20,3 +20,9 @@ export const TransactionType = {
     Investment: 'Investment',
 } as const;
 export type TransactionType = typeof TransactionType[keyof typeof TransactionType];
+
+export const SOCIALS = {
+    github: 'https://github.com/indam1/',
+    linkedin: 'https://www.linkedin.com/in/andreiusanov/',
+    telegram: 'https://t.me/Indam1/',
+} as const;
