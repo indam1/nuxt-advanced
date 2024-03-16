@@ -9,7 +9,7 @@
             :ui="{
                 item: { disabled: 'cursor-text select-text' },
                 width: 'w-64',
-                wrapper: `flex w-32 rounded ${hover && hover !== key ? 'text-gray-400' : 'text-gray-900'}`,
+                wrapper: `flex w-24 rounded ${hover && hover !== key ? 'text-gray-400' : 'text-gray-900'}`,
             }"
             @mouseover="hover = key"
             @mouseleave="hover = null"

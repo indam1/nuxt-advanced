@@ -3,12 +3,11 @@ import {Peer} from "crossws";
 import {WebSocketServer} from "ws";
 
 type CTX = { node: { server: WebSocketServer, req: any, ws: any }}
-const topic = 'ROOM';
 
 export default defineWebSocketHandler({
     open(peer: Peer<CTX>) {
-        peer.subscribe(topic);
-        peer.publish(topic, 'connected');
+        peer.subscribe('ROOM');
+        peer.publish('ROOM', 'connected');
     },
 
     message(peer: Peer<CTX>, message) {
@@ -18,11 +17,11 @@ export default defineWebSocketHandler({
             return;
         }
         peer.send(text);
-        peer.publish(topic, text);
+        peer.publish('ROOM', text);
     },
 
     close(peer) {
-        peer.unsubscribe(topic);
+        peer.unsubscribe('ROOM');
     },
 
     error(peer, error) {

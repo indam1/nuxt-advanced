@@ -4,7 +4,7 @@
             to="/"
             class="text-xl font-bold"
         >
-            UsanoFake Bank
+            IndamFake Bank
         </NuxtLink>
 
         <MainNavBar />

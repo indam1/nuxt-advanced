@@ -3,7 +3,7 @@
         v-if="!success"
     >
         <template #header>
-            Sign-in to UsanoFake Bank
+            Sign-in to IndamFake Bank
         </template>
 
         <form @submit.prevent="handleLogin">
