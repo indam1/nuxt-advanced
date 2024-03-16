@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col min-h-screen">
+    <div>
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
@@ -28,7 +28,7 @@ body {
 }
 
 body {
-    @apply bg-neutral-200 text-neutral-800 text-opacity-80
+    @apply bg-neutral-200 text-neutral-800
 }
 
 .personal-account {

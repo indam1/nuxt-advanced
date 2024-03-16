@@ -38,10 +38,6 @@
                 "classes": "never"
             }
         ],
-        "id-match": [
-            "error",
-            "^[a-zA-Z0-9-_]+$"
-        ],
         "vue/html-indent": [
             "error",
             4

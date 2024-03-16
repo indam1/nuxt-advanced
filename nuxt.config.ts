@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             baseUrl: process.env.BASE_URL,
+            reviewApiUrl: process.env.REVIEW_API_URL,
         }
     },
     modules: [

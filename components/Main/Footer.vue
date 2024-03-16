@@ -1,6 +1,6 @@
 <template>
     <footer
-        class="flex justify-between items-center w-full px-4 sm:px-6 lg:px-96 bg-neutral-800"
+        class="bg-neutral-800"
         aria-labelledby="footer-heading"
     >
         <h2
@@ -9,7 +9,7 @@
         >
             Footer
         </h2>
-        <div class="max-w-7xl pb-8 pt-8 xl:pt-16 w-full">
+        <div class="mx-auto max-w-7xl px-6 pb-8 pt-8 sm:pt-16 lg:px-8 xl:pt-32">
             <div class="grid grid-cols-3 gap-8 xl:col-span-3 pt-16 xl:pt-0">
                 <div class="md:grid md:grid-cols-2 md:gap-8">
                     <div>
