@@ -1,8 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    app: {
+        pageTransition: { name: 'page', mode: 'out-in' },
+    },
     nitro: {
         experimental: {
             websocket: true,
+        },
+        prerender: {
+            routes: [
+                '/feed.xml',
+            ],
         },
     },
     colorMode: {
@@ -15,6 +23,9 @@ export default defineNuxtConfig({
             enabled: true
         }
     },
+    future: {
+        typescriptBundlerResolution: true
+    },
     runtimeConfig: {
         public: {
             baseUrl: process.env.BASE_URL,
@@ -22,11 +33,22 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-        '@nuxt/ui',
+        ['@nuxtjs/eslint-module', { fix: true}],
         '@nuxtjs/supabase',
-        '@nuxtjs/eslint-module',
+        '@nuxtjs/sitemap',
         '@vueuse/nuxt',
+        '@nuxt/content',
+        '@nuxt/ui',
     ],
+    content: {
+        highlight: {
+            theme: {
+                default: 'min-light',
+                dark: 'min-light',
+                light: 'min-light',
+            },
+        },
+    },
     supabase: {
         redirectOptions: {
             callback: '/auth/confirm',

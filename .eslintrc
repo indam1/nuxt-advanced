@@ -4,7 +4,6 @@
         "node": true,
         "browser": true
     },
-    "ignorePatterns": ["types/supabase.ts"],
     "extends": [
         "@nuxt/eslint-config"
     ],
@@ -42,6 +41,13 @@
             "error",
             4
         ],
-        "vue/no-multiple-template-root": "off"
+        "vue/no-multiple-template-root": "off",
+        "no-restricted-syntax": [
+            "error",
+            {
+                "selector": "CallExpression[arguments.length=1] > MemberExpression.callee > Identifier.property[name='reduce']",
+                "message": "Provide initialValue to .reduce()."
+            }
+        ]
     }
 }
