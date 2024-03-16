@@ -12,10 +12,10 @@
     "lint-fix": "eslint --ext .js,.vue --fix ."
   },
   "dependencies": {
-    "@nuxt/ui": "^2.14.1",
+    "@nuxt/ui": "^2.14.2",
     "@vueuse/nuxt": "^10.9.0",
-    "nuxt": "^3.10.3",
-    "vue": "^3.4.19",
+    "nuxt": "npm:nuxt-nightly@latest",
+    "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
@@ -23,11 +23,11 @@
     "@nuxt/eslint-config": "^0.2.0",
     "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/supabase": "^1.1.7",
-    "date-fns": "^3.3.1",
+    "date-fns": "^3.5.0",
     "eslint": "^8.57.0",
     "supabase": "^1.148.6",
-    "typescript": "^5.3.3",
-    "vue-tsc": "^2.0.4",
+    "typescript": "^5.4.2",
+    "vue-tsc": "^2.0.6",
     "zod": "^3.22.4"
   }
 }
