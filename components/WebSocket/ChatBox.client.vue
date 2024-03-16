@@ -36,7 +36,8 @@
 </template>
 
 <script setup lang="ts">
-const { send, open } = useWebSocket(`ws://${location.host}/api/websocket`, {
+const websocketProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
+const { send, open } = useWebSocket(`${websocketProtocol}://${location.host}/api/websocket`, {
     autoReconnect: {
         retries: 3,
         delay: 1000,
