@@ -1,26 +1,43 @@
 <template>
-    <UTabs
-        orientation="vertical"
-        :items="items"
-        :ui="{
-            wrapper: 'flex flex-row gap-12 p-10',
-            list: {
-                width: 'w-48',
-                base: 'flex flex-col gap-4',
-                background: 'bg-transparent',
-            }
-        }"
+    <AppSection
+        class="py-12"
+        inner-class="flex flex-col gap-12"
     >
-        <template #profile>
-            <Profile />
-        </template>
-        <template #avatar>
-            <Avatar />
-        </template>
-        <template #common>
-            <Common />
-        </template>
-    </UTabs>
+        <h1 class="text-4xl font-extrabold">
+            Settings
+        </h1>
+        <p>
+            Set up your account
+        </p>
+        <UTabs
+            orientation="vertical"
+            :items="items"
+            :ui="{
+                wrapper: 'flex flex-row gap-12',
+                list: {
+                    width: 'w-48',
+                    base: 'flex flex-col gap-4',
+                    background: 'bg-transparent',
+                }
+            }"
+        >
+            <template #profile>
+                <AppSection>
+                    <Profile />
+                </AppSection>
+            </template>
+            <template #avatar>
+                <AppSection>
+                    <Avatar />
+                </AppSection>
+            </template>
+            <template #common>
+                <AppSection>
+                    <Common />
+                </AppSection>
+            </template>
+        </UTabs>
+    </AppSection>
 </template>
 
 <script setup lang="ts">

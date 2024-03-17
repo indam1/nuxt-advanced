@@ -92,7 +92,3 @@ const items = [
     ]
 ];
 </script>
-
-<style scoped lang="postcss">
-
-</style>

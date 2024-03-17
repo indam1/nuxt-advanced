@@ -164,7 +164,3 @@ watch(isOpen, (value) => {
     }
 });
 </script>
-
-<style scoped lang="postcss">
-
-</style>

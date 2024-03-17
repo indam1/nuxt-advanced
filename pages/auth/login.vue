@@ -1,47 +1,49 @@
 <template>
-    <UCard
-        v-if="!success"
-    >
-        <template #header>
-            Sign-in to IndamFake Bank
-        </template>
+    <AppSection class="mt-40">
+        <UCard
+            v-if="!success"
+        >
+            <template #header>
+                Sign-in to IndamFake Bank
+            </template>
 
-        <form @submit.prevent="handleLogin">
-            <UFormGroup
-                label="Email"
-                name="email"
-                class="mb-4"
-                :required="true"
-                help="You will receive an email with the confirmation link"
-            >
-                <UInput
-                    v-model="email"
-                    type="email"
-                    placeholder="Email"
-                    required
+            <form @submit.prevent="handleLogin">
+                <UFormGroup
+                    label="Email"
+                    name="email"
+                    class="mb-4"
+                    :required="true"
+                    help="You will receive an email with the confirmation link"
+                >
+                    <UInput
+                        v-model="email"
+                        type="email"
+                        placeholder="Email"
+                        required
+                    />
+                </UFormGroup>
+
+                <UButton
+                    type="submit"
+                    label="Sign-in"
+                    :loading="pending"
+                    :disabled="pending"
                 />
-            </UFormGroup>
+            </form>
+        </UCard>
+        <UCard v-else>
+            <template #header>
+                Email has been sent
+            </template>
 
-            <UButton
-                type="submit"
-                label="Sign-in"
-                :loading="pending"
-                :disabled="pending"
-            />
-        </form>
-    </UCard>
-    <UCard v-else>
-        <template #header>
-            Email has been sent
-        </template>
-
-        <div class="text-center">
-            <p>We have sent an email to <strong>{{ email }}</strong> with a link to sign-in</p>
-            <p>
-                <strong>Important:</strong> The link will expire in 5 minutes.
-            </p>
-        </div>
-    </UCard>
+            <div class="text-center">
+                <p>We have sent an email to <strong>{{ email }}</strong> with a link to sign-in</p>
+                <p>
+                    <strong>Important:</strong> The link will expire in 5 minutes.
+                </p>
+            </div>
+        </UCard>
+    </AppSection>
 </template>
 
 <script setup lang="ts">
@@ -92,7 +94,3 @@ function useLoginHandling(email: Ref<string>) {
     return { pending, success, handleLogin };
 }
 </script>
-
-<style scoped lang="postcss">
-
-</style>

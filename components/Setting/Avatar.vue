@@ -92,7 +92,3 @@ const saveAvatar = async () => {
     }
 };
 </script>
-
-<style scoped lang="postcss">
-
-</style>

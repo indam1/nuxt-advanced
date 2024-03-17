@@ -7,7 +7,3 @@ definePageMeta({
     documentDriven: false
 });
 </script>
-
-<style scoped lang="postcss">
-
-</style>

@@ -40,7 +40,3 @@
 <script setup lang="ts">
 const { page } = useContent();
 </script>
-
-<style scoped lang="postcss">
-
-</style>

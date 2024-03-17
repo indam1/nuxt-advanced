@@ -21,7 +21,3 @@ const sum = computed(() => props.transactions.reduce<number>(
 );
 const { currency } = useCurrency(sum);
 </script>
-
-<style scoped lang="postcss">
-
-</style>

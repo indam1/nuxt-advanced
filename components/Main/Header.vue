@@ -61,12 +61,14 @@
                     </UDropdown>
 
                     <UButton
-                        class="block md:hidden cursor-default text-blue-500"
+                        color="gray"
+                        class="block md:hidden cursor-default text-blue-500 w-8 h-8"
                         icon="i-heroicons-user"
                         @click="toggleOpened('profile')"
                     />
                     <UButton
-                        class="block md:hidden cursor-default text-blue-500"
+                        color="gray"
+                        class="block md:hidden cursor-default text-blue-500 w-8 h-8"
                         icon="i-heroicons-bars-3"
                         @click="toggleOpened('navigation')"
                     />
@@ -86,31 +88,9 @@
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const { url } = useAvatarUrl();
+
 const opened = ref<string | null>(null);
-const toggleOpened = (value: string) => {
-    if (opened.value === value) {
-        opened.value = null;
-        return;
-    }
-
-    opened.value = value;
-};
-
-const allItems = computed(() => {
-    if (opened.value === 'profile') {
-        return items.filter((item) => !item[0].disabled);
-    }
-
-    if (opened.value === 'navigation') {
-        return [navigation.Products[0], navigation.Resources[0], navigation.More[0]];
-    }
-
-    return [];
-});
-
-watch(allItems, (newValue) => {
-    console.log(newValue);
-});
+const { toggleOpened, allItems } = useAllItems(opened);
 
 const navigation = {
     Products: [[
@@ -159,4 +139,30 @@ const items = [
         },
     }]
 ];
+
+function useAllItems(value: any) {
+    const opened = ref(value);
+    const toggleOpened = (value: string) => {
+        if (opened.value === value) {
+            opened.value = null;
+            return;
+        }
+
+        opened.value = value;
+    };
+
+    const allItems = computed(() => {
+        if (opened.value === 'profile') {
+            return items.filter((item) => !item[0].disabled);
+        }
+
+        if (opened.value === 'navigation') {
+            return [navigation.Products[0], navigation.Resources[0], navigation.More[0]];
+        }
+
+        return [];
+    });
+
+    return { allItems, toggleOpened };
+}
 </script>

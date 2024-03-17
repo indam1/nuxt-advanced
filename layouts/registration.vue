@@ -1,6 +1,6 @@
 <template>
     <RegistrationHeader />
-    <main class="container m-auto max-w-4xl">
+    <main class="container mx-auto">
         <slot />
     </main>
 </template>

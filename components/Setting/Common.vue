@@ -32,7 +32,3 @@ const disabled = computed(() => pending.value || (transactionView.value === stat
 
 const { pending, saveProfile } = useSavingUser(state.value);
 </script>
-
-<style scoped lang="postcss">
-
-</style>

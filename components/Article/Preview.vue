@@ -32,7 +32,3 @@ const props = defineProps<{
 }>();
 const { article } = toRefs(props);
 </script>
-
-<style scoped lang="postcss">
-
-</style>

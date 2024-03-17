@@ -23,78 +23,37 @@
             <h1 class="text-4xl font-extrabold text-opacity-100 text-black text-center">
                 Recommended products
             </h1>
-            <!--ToDo UCards to component -->
             <div class="md:grid md:grid-cols-6 md:grid-rows-2 flex flex-col gap-12 w-full">
-                <UCard
-                    class="col-span-3 transition duration-500 hover:scale-105 rounded-3xl"
-                    :ui="{ body: { base: 'min-h-64' } }"
-                >
-                    <template #header>
-                        <h2 class="text-xl">
-                            Credit Cards
-                        </h2>
-                    </template>
-                    Some text with description
-                    <template #footer>
-                        <UButton label="Click me" />
-                    </template>
-                </UCard>
-                <UCard
-                    class="col-span-3 transition duration-500 hover:scale-105 rounded-3xl"
-                    :ui="{ body: { base: 'h-64' } }"
-                >
-                    <template #header>
-                        <h2 class="text-xl">
-                            Debit Cards
-                        </h2>
-                    </template>
-                    Some text with description
-                    <template #footer>
-                        <UButton label="Click me" />
-                    </template>
-                </UCard>
-                <UCard
-                    class="col-span-2 transition duration-500 hover:scale-105 rounded-3xl"
-                    :ui="{ body: { base: 'h-64' } }"
-                >
-                    <template #header>
-                        <h2 class="text-xl">
-                            Investments
-                        </h2>
-                    </template>
-                    Some text with description
-                    <template #footer>
-                        <UButton label="Click me" />
-                    </template>
-                </UCard>
-                <UCard
-                    class="col-span-2 transition duration-500 hover:scale-105 rounded-3xl"
-                    :ui="{ body: { base: 'h-64' } }"
-                >
-                    <template #header>
-                        <h2 class="text-xl">
-                            Savings
-                        </h2>
-                    </template>
-                    Some text with description
-                    <template #footer>
-                        <UButton label="Click me" />
-                    </template>
-                </UCard>
-                <UCard
-                    class="col-span-2 transition duration-500 hover:scale-105 rounded-3xl"
-                    :ui="{ body: { base: 'h-64' } }"
-                >
-                    <template #header>
-                        <h2 class="text-xl">
-                            Mortgage
-                        </h2>
-                    </template>
-                    Some text with description
-                    <template #footer>
-                        <UButton label="Click me" />
-                    </template>
-                </UCard>
+                <ProductCard
+                    class="col-span-3"
+                    title="Credit Cards"
+                    description="Some text with description"
+                    to="/products/credit-cards/"
+                />
+                <ProductCard
+                    class="col-span-3"
+                    title="Debit Cards"
+                    description="Some text with description"
+                    to="/products/debit-cards/"
+                />
+                <ProductCard
+                    class="col-span-2"
+                    title="Investments"
+                    description="Some text with description"
+                    to="/products/investments/"
+                />
+                <ProductCard
+                    class="col-span-2"
+                    title="Savings"
+                    description="Some text with description"
+                    to="/products/savings/"
+                />
+                <ProductCard
+                    class="col-span-2"
+                    title="Mortgage"
+                    description="Some text with description"
+                    to="/products/mortgage/"
+                />
             </div>
             <UButton label="All products" />
         </AppSection>
