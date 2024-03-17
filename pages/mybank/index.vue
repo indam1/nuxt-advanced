@@ -100,6 +100,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    documentDriven: false
+});
+
 const { transactionView } = useTransactionView();
 const selectedView = ref(transactionView);
 const isOpen = ref(false);

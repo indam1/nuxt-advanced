@@ -40,7 +40,3 @@ const state = ref<{ name: string, email: string }>({
 const disabled = computed(() => pending.value || (((user.value?.email ?? '') === state.value.email) && (user?.value?.user_metadata?.full_name ?? '') === state.value.name));
 const { pending, saveProfile } = useSavingUser(state.value);
 </script>
-
-<style scoped lang="postcss">
-
-</style>

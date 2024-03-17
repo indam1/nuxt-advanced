@@ -39,6 +39,10 @@
 
 <script setup lang="ts">
 definePageMeta({
+    documentDriven: false
+});
+
+definePageMeta({
     layout: 'websocket',
 });
 const messages = ref<Array<any>>([]);

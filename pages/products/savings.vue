@@ -1,9 +1,5 @@
 <template>
-    <AppSection>
-        <article class="prose-lg p-8">
-            <ContentDoc path="/terms" />
-        </article>
-    </AppSection>
+    <div>Savings</div>
 </template>
 
 <script setup lang="ts">
@@ -15,3 +11,4 @@ definePageMeta({
 <style scoped lang="postcss">
 
 </style>
+

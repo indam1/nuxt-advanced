@@ -47,6 +47,7 @@
 <script setup lang="ts">
 definePageMeta({
     layout: 'registration',
+    documentDriven: false,
 });
 
 const email = ref('');

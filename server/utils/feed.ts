@@ -11,8 +11,7 @@ export async function generateBlogFeed(event: H3Event) {
         id: url,
         link: url,
         language: currentLocale,
-        image: withSiteUrl(event, `/__og-image__/image/articles/og.png`),
-        favicon: withSiteUrl(event, `/img/logo/glyph-white-colored.svg`),
+        favicon: withSiteUrl(event, `/favicon.svg`),
         generator: ';)',
         copyright: `No license :(`,
         feedLinks: {
@@ -20,10 +19,10 @@ export async function generateBlogFeed(event: H3Event) {
         },
     });
 
-    const posts = await serverQueryContent(event, 'articles').sort({ datePublished: -1 }).find();
+    const posts = await serverQueryContent(event, 'news').sort({ datePublished: -1 }).find();
 
     for (const post of posts) {
-        if (!post._path) {
+        if (!post._path || post._path === '/news') {
             continue;
         }
 

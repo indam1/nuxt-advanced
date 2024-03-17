@@ -1,8 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    app: {
-        pageTransition: { name: 'page', mode: 'out-in' },
-    },
+    // ToDo fix breaking layout link
+    // app: {
+    //     pageTransition: { name: 'page', mode: 'out-in' },
+    // },
     nitro: {
         experimental: {
             websocket: true,
@@ -41,6 +42,7 @@ export default defineNuxtConfig({
         '@nuxt/ui',
     ],
     content: {
+        documentDriven: true,
         highlight: {
             theme: {
                 default: 'min-light',

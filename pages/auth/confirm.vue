@@ -9,6 +9,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    documentDriven: false
+});
 useRedirectIfAuthenticated('/mybank');
 </script>
 

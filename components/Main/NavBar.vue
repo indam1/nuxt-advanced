@@ -1,5 +1,5 @@
 <template>
-    <nav class="flex justify-between">
+    <nav class="justify-between">
         <UDropdown
             v-for="(value, key) in navigation"
             :key="key"
@@ -26,23 +26,8 @@
 
 <script setup lang="ts">
 const hover = ref<string | null>(null);
-const navigation = {
-    Products: [[
-        { label: 'Credit Cards', to: '/products/credit-cards/' },
-        { label: 'Debit Cards', to: '/products/debit-cards/' },
-        { label: 'Investments', to: '/products/investments/' },
-        { label: 'Savings', to: '/products/savings/' },
-        { label: 'Mortgage', to: '/products/mortgage/' },
-    ]],
-    Resources: [[
-        { label: 'Terms And Conditions', to: '/terms/' },
-        { label: 'Privacy Policy', to: '/privacy/' },
-    ]],
-    More: [[
-        { label: 'About', to: '/about/' },
-        { label: 'Articles', to: '/articles/' },
-        { label: 'Contacts', to: '/contacts/' },
-        { label: 'Reviews', to: '/reviews/' },
-    ]],
-};
+const props = defineProps<{
+    navigation: { [key: string]: any }
+}>();
+const { navigation } = toRefs(props);
 </script>

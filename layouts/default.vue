@@ -6,3 +6,6 @@
     <MainFooter class="mt-auto" />
     <LazyUNotifications />
 </template>
+
+<script setup lang="ts">
+</script>

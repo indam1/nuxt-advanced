@@ -9,6 +9,7 @@
                 tag="ul"
                 class="flex flex-col gap-8 md:gap-16 md:grid md:grid-rows-2 md:grid-cols-2"
             >
+                <!--ToDo to component (?) -->
                 <UCard
                     v-for="review in reviews"
                     :key="review.id"
@@ -36,6 +37,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    documentDriven: false
+});
+
 const { $reviewApi } = useNuxtApp();
 const reviewRepo = reviewRepository($reviewApi);
 const { data } = await useAsyncData(() => reviewRepo.getTwenty());
@@ -46,9 +51,6 @@ const reviews = computed(() => {
     }
 
     return data.value?.slice(0, 10);
-});
-watch(data, (newValue) => {
-    console.log(newValue);
 });
 </script>
 

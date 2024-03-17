@@ -129,7 +129,7 @@ const navigation = {
     ],
     more: [
         { name: 'About', to: '/about/' },
-        { name: 'Articles', to: '/articles/' },
+        { name: 'What\'s New', to: '/news/' },
         { name: 'Contacts', to: '/contacts/' },
         { name: 'Reviews', to: '/reviews/' },
     ],

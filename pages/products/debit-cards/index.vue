@@ -1,9 +1,5 @@
 <template>
-    <AppSection>
-        <article class="prose-lg p-8">
-            <ContentDoc path="/terms" />
-        </article>
-    </AppSection>
+    <div>Debit Cards</div>
 </template>
 
 <script setup lang="ts">
