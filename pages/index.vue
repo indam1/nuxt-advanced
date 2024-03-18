@@ -11,10 +11,13 @@
                 label="Buy something"
                 class="px-8 py-4 rounded-xl text-sm"
             />
-            <img
-                alt=""
-                src="@/public/main.png"
-            >
+            <NuxtImg
+                alt="Lime Logo"
+                src="/main.png"
+                width="512"
+                height="512"
+                format="webp"
+            />
         </AppSection>
         <AppSection
             class="mt-16"

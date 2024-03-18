@@ -14,7 +14,7 @@
             @mouseover="hover = key"
             @mouseleave="hover = null"
         >
-            <div class="text-center p-2 cursor-default personal-account w-full">
+            <div class="text-center p-2 cursor-default w-full">
                 {{ key }}
             </div>
             <template #item="{ item }">

@@ -15,11 +15,12 @@
                         {{ message.user }}
                     </p>
                     <div class="flex items-center">
-                        <img
+                        <NuxtImg
                             :src="'https://www.gravatar.com/avatar/' + encodeURIComponent(message.user + Math.random()) + '?s=512&d=monsterid'"
                             alt="Avatar"
                             class="w-8 h-8 rounded-full"
-                        >
+                            format="webp"
+                        />
                         <div class="ml-2 bg-gray-800 rounded-lg p-2">
                             <p class="text-white">
                                 {{ message.text }}

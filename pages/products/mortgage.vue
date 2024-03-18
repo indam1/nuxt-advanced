@@ -1,5 +1,7 @@
 <template>
-    <div>Mortgage</div>
+    <AppSection inner-class="p-12">
+        <ProductMortgageForm />
+    </AppSection>
 </template>
 
 <script setup lang="ts">

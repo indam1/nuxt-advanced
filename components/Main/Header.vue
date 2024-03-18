@@ -26,7 +26,7 @@
                             wrapper: 'rounded hover:bg-gray-200',
                         }"
                     >
-                        <div class="flex gap-4 items-center p-2 cursor-default text-blue-500 personal-account">
+                        <div class="flex gap-4 items-center p-2 cursor-default text-blue-500">
                             <span>Personal Account</span>
                             <UAvatar
                                 v-if="user"
