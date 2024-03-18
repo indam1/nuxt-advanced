@@ -64,12 +64,14 @@
                         color="gray"
                         class="block md:hidden cursor-default text-blue-500 w-8 h-8"
                         icon="i-heroicons-user"
+                        aria-label="Open profile"
                         @click="toggleOpened('profile')"
                     />
                     <UButton
                         color="gray"
                         class="block md:hidden cursor-default text-blue-500 w-8 h-8"
                         icon="i-heroicons-bars-3"
+                        aria-label="Open navigation"
                         @click="toggleOpened('navigation')"
                     />
                 </div>

@@ -29,6 +29,7 @@
                     <UButton
                         trailing-icon="i-heroicons-ellipsis-horizontal"
                         :loading="isLoading"
+                        aria-label="Open this transaction actions"
                     />
                     <LazyTransactionModal
                         v-model="isOpen"

@@ -14,9 +14,7 @@
             <NuxtImg
                 alt="Lime Logo"
                 src="/main.png"
-                width="512"
-                height="512"
-                format="webp"
+                sizes="256px md:30vw"
             />
         </AppSection>
         <AppSection
@@ -104,6 +102,7 @@
                     :ui="{
                         base: 'h-full'
                     }"
+                    aria-label="Your question"
                 />
                 <p class="order-1 md:order-2 col-span-2">
                     Fill form with your email and we will get back to you soon
