@@ -143,25 +143,6 @@ const {
 async function useFetchTransactions (period: Ref<{ from: Date; to: Date }>) {
     const supabase = useSupabaseClient<Database>();
     const visibility = useDocumentVisibility();
-
-    const { data: transactions , pending, refresh } = await useAsyncData(
-        `transactions-${period.value.from.toDateString()}-${period.value.to.toDateString()}`,
-        async () => {
-            const { data } = await supabase
-                .from('transactions')
-                .select()
-                .gte('created_at', period.value.from.toISOString())
-                .lte('created_at', period.value.to.toISOString())
-                .order('created_at', { ascending: false })
-                .returns<Array<Tables<'transactions'>>>();
-            return data ?? [];
-        },
-        {
-            default: () => [],
-            watch: [period],
-        }
-    );
-
     const incomeTransactions = computed(
         () => transactions.value.filter(transaction => transaction.type === TransactionTypes.Income)
     );
@@ -214,6 +195,24 @@ async function useFetchTransactions (period: Ref<{ from: Date; to: Date }>) {
             }, {}
         );
     });
+
+    const { data: transactions, pending, refresh } = await useAsyncData(
+        `transactions-${period.value.from.toDateString()}-${period.value.to.toDateString()}`,
+        async () => {
+            const { data } = await supabase
+                .from('transactions')
+                .select()
+                .gte('created_at', period.value.from.toISOString())
+                .lte('created_at', period.value.to.toISOString())
+                .order('created_at', { ascending: false })
+                .returns<Array<Tables<'transactions'>>>();
+            return data ?? [];
+        },
+        {
+            default: () => [],
+            watch: [period],
+        }
+    );
 
     watch(visibility, async () => {
         if (visibility.value === 'visible') {

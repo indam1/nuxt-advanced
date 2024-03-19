@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col">
-        <AppSection inner-class="gap-12 mt-4 md:mt-16 flex flex-col items-center">
+        <AppSection inner-class="gap-12 mt-16 flex flex-col items-center">
             <h1 class="text-3xl md:text-4xl font-extrabold text-opacity-100 text-black text-center">
                 This is a short answer to the question why we are a cool bank
             </h1>
@@ -16,6 +16,7 @@
                 src="/main.png"
                 width="512"
                 height="512"
+                class="w-48 h-48 md:h-[512px] md:w-[512px]"
                 format="webp"
             />
         </AppSection>
@@ -60,7 +61,7 @@
             </div>
             <UButton label="All products" />
         </AppSection>
-        <AppSection inner-class="gap-12 flex flex-col items-center">
+        <LazyAppSection inner-class="gap-12 flex flex-col items-center">
             <h1 class="text-4xl font-extrabold text-opacity-100 text-black text-center">
                 Additionally
             </h1>
@@ -76,9 +77,9 @@
                 </UCard>
                 <UCard class="transition duration-500 hover:scale-105 rounded-3xl">
                     <template #header>
-                        Review Title: <strong>{{ data?.title ?? 'No title' }}</strong>
+                        Review Title: <strong>{{ pending ? 'Loading review title' : data?.title ?? 'No Title' }}</strong>
                     </template>
-                    {{ data?.body ?? 'No body' }}
+                    {{ pending ? 'Loading review' : data?.body ?? 'Oops, no review' }}
                     <template #footer>
                         <UButton label="Read all" />
                     </template>
@@ -93,8 +94,8 @@
                     </template>
                 </UCard>
             </div>
-        </AppSection>
-        <AppSection inner-class="gap-12 flex flex-col items-center">
+        </LazyAppSection>
+        <LazyAppSection inner-class="gap-12 flex flex-col items-center">
             <h1 class="text-4xl font-extrabold text-opacity-100 text-black text-center">
                 Ask us
             </h1>
@@ -120,7 +121,7 @@
                     label="Send"
                 />
             </div>
-        </AppSection>
+        </LazyAppSection>
     </div>
 </template>
 <script setup lang="ts">
@@ -130,5 +131,5 @@ definePageMeta({
 
 const { $reviewApi } = useNuxtApp();
 const reviewRepo = reviewRepository($reviewApi);
-const { data } = await useAsyncData(() => reviewRepo.getFirst());
+const { data, pending } = await useLazyAsyncData(() => reviewRepo.getFirst());
 </script>
