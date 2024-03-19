@@ -52,24 +52,24 @@ const { send, open } = useWebSocket(`${websocketProtocol}://${location.host}/api
     },
     onMessage(ws, event) {
         const { data } = event;
-        const { message = "" } = data.startsWith("{") ? JSON.parse(data) : { message: data };
+        const { message = '' } = data.startsWith('{') ? JSON.parse(data) : { message: data };
         log('system', message);
     },
 });
 
 const messages = defineModel<Array<any>>({ required: true });
-const log = (user, ...args) => {
+const log = (user: string, ...args: Array<string>) => {
     messages.value.push({
         text: args.join(" "),
         formattedText: "",
-        user: user,
+        user,
         date: new Date().toLocaleString(),
     });
 };
 
 const clear = () => {
     messages.value = [];
-    log("system", "previous messages cleared");
+    log('system', 'previous messages cleared');
 };
 
 const messageInput = ref<string>('');

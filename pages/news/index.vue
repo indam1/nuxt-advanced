@@ -19,9 +19,11 @@
 </template>
 
 <script setup lang="ts">
+import type {QueryBuilderParams} from "@nuxt/content/dist/runtime/types";
+
 definePageMeta({
     documentDriven: false,
 });
 
-const query = { path: '/news', sort: [{ dateModified: -1, datePublished: -1 }] };
+const query: QueryBuilderParams = { path: '/news', sort: [{ dateModified: -1, datePublished: -1 }] };
 </script>

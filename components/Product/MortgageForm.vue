@@ -135,13 +135,13 @@ const mortgageTypeOptions = [
     { name: 'Type 3', value: 'type3' },
     { name: 'Type 4', value: 'type4' },
 ];
-const interestRates = {
+const interestRates: Record<string, number> = {
     type1: 16.9,
     type2: 10,
     type3: 15,
     type4: 20,
 };
-const limits = {
+const limits: Record<string, { min: number; max: number }> = {
     type1: { min: 500000, max: 10000000 },
     type2: { min: 500000, max: 20000000 },
     type3: { min: 1000000, max: 40000000 },
@@ -165,7 +165,3 @@ const mortgageSchema = z.object({
     email: z.string({ required_error: 'Email is required' }).email('Invalid email'),
 });
 </script>
-
-<style scoped lang="postcss">
-
-</style>

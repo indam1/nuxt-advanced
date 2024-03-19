@@ -11,7 +11,7 @@
         >
             <USelect
                 v-model="state.transactionView"
-                :options="getValues(TransactionViewOption)"
+                :options="getValues(TransactionViewOptions)"
             />
         </UFormGroup>
 

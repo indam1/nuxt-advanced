@@ -27,8 +27,10 @@
 </template>
 
 <script setup lang="ts">
+import type {ParsedContent} from "@nuxt/content/types";
+
 const props = defineProps<{
-    article: any
+    article: ParsedContent
 }>();
 const { article } = toRefs(props);
 </script>

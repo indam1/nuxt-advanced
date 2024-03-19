@@ -1,25 +1,27 @@
-export const TransactionViewOption = {
+import type {ValueOf} from "type-fest";
+
+export const TransactionViewOptions = {
     Yearly: 'Yearly',
     Monthly: 'Monthly',
     Daily: 'Daily',
 } as const;
-export type TransactionViewOption = typeof TransactionViewOption[keyof typeof TransactionViewOption];
+export type TransactionViewOption = ValueOf<typeof TransactionViewOptions>;
 
-export const TransactionCategory = {
+export const TransactionCategories = {
     Food: 'Food',
     Housing: 'Housing',
     Car: 'Car',
     Entertainment: 'Entertainment',
 } as const;
-export type TransactionCategory = typeof TransactionCategory[keyof typeof TransactionCategory];
+export type TransactionCategory = ValueOf<typeof TransactionCategories>;
 
-export const TransactionType = {
+export const TransactionTypes = {
     Income: 'Income',
     Expense: 'Expense',
     Saving: 'Saving',
     Investment: 'Investment',
 } as const;
-export type TransactionType = typeof TransactionType[keyof typeof TransactionType];
+export type TransactionType = ValueOf<typeof TransactionTypes>;
 
 export const SOCIALS = {
     github: 'https://github.com/indam1/',

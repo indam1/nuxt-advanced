@@ -39,8 +39,11 @@
                             />
                         </div>
 
-                        <template #account>
+                        <template #account="{ item }">
                             <div class="text-left">
+                                <p>
+                                    {{ item.label }}
+                                </p>
                                 <p>
                                     {{ user ? 'Signed in as' : 'Unsigned' }}
                                 </p>
@@ -92,30 +95,39 @@ const user = useSupabaseUser();
 const { url } = useAvatarUrl();
 
 const opened = ref<string | null>(null);
-const { toggleOpened, allItems } = useAllItems(opened);
+const { toggleOpened, allItems } = useAllItems(opened.value);
+
+const click = () => opened.value = null;
+
+const products = [
+    { label: 'Credit Cards', to: '/products/credit-cards/', click },
+    { label: 'Debit Cards', to: '/products/debit-cards/', click },
+    { label: 'Investments', to: '/products/investments/', click },
+    { label: 'Savings', to: '/products/savings/', click },
+    { label: 'Mortgage', to: '/products/mortgage/', click },
+];
+
+const resources = [
+    { label: 'Terms And Conditions', to: '/terms/', click },
+    { label: 'Privacy Policy', to: '/privacy/', click },
+];
+
+const more = [
+    { label: 'About', to: '/about/', click },
+    { label: 'What\'s New', to: '/news/', click },
+    { label: 'Contacts', to: '/contacts/', click },
+    { label: 'Reviews', to: '/reviews/', click },
+];
 
 const navigation = {
-    Products: [[
-        { label: 'Credit Cards', to: '/products/credit-cards/', click: () => opened.value = null },
-        { label: 'Debit Cards', to: '/products/debit-cards/', click: () => opened.value = null },
-        { label: 'Investments', to: '/products/investments/', click: () => opened.value = null },
-        { label: 'Savings', to: '/products/savings/', click: () => opened.value = null },
-        { label: 'Mortgage', to: '/products/mortgage/', click: () => opened.value = null },
-    ]],
-    Resources: [[
-        { label: 'Terms And Conditions', to: '/terms/', click: () => opened.value = null },
-        { label: 'Privacy Policy', to: '/privacy/', click: () => opened.value = null },
-    ]],
-    More: [[
-        { label: 'About', to: '/about/', click: () => opened.value = null },
-        { label: 'What\'s New', to: '/news/', click: () => opened.value = null },
-        { label: 'Contacts', to: '/contacts/', click: () => opened.value = null },
-        { label: 'Reviews', to: '/reviews/', click: () => opened.value = null },
-    ]],
+    Products: [products],
+    Resources: [resources],
+    More: [more],
 };
 
 const items = [
     [{
+        label: 'Personal Account',
         slot: 'account',
         disabled: true,
     }],
@@ -123,13 +135,13 @@ const items = [
         label: 'My account',
         icon: 'i-heroicons-user-circle',
         to: '/mybank',
-        click: () => opened.value = null,
+        click,
     },
     {
         label: 'Settings',
         icon: 'i-heroicons-cog-8-tooth',
         to: '/settings',
-        click: () => opened.value = null,
+        click,
     },
     {
         disabled: !user.value,
@@ -137,12 +149,12 @@ const items = [
         icon: 'i-heroicons-arrow-left-on-rectangle',
         click: async () => {
             await supabase.auth.signOut();
-            navigateTo('/auth/login');
+            return navigateTo('/auth/login');
         },
     }]
 ];
 
-function useAllItems(value: any) {
+function useAllItems(value: string | null) {
     const opened = ref(value);
     const toggleOpened = (value: string) => {
         if (opened.value === value) {
@@ -159,7 +171,7 @@ function useAllItems(value: any) {
         }
 
         if (opened.value === 'navigation') {
-            return [navigation.Products[0], navigation.Resources[0], navigation.More[0]];
+            return [products, resources, more];
         }
 
         return [];

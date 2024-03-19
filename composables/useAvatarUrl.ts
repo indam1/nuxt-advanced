@@ -16,5 +16,5 @@ export const useAvatarUrl = () => {
 
     watch(user, () => url.value = getPublicUrl(), { immediate: true });
 
-    return { url: url ?? 'https://avatars.githubusercontent.com/u/739984?v=4' };
+    return { url: url.value ?? 'https://avatars.githubusercontent.com/u/739984?v=4' };
 };

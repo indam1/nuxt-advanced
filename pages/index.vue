@@ -14,7 +14,9 @@
             <NuxtImg
                 alt="Lime Logo"
                 src="/main.png"
-                sizes="256px md:30vw"
+                width="512"
+                height="512"
+                format="webp"
             />
         </AppSection>
         <AppSection
@@ -74,9 +76,9 @@
                 </UCard>
                 <UCard class="transition duration-500 hover:scale-105 rounded-3xl">
                     <template #header>
-                        Review Title: <strong>{{ data.title }}</strong>
+                        Review Title: <strong>{{ data?.title ?? 'No title' }}</strong>
                     </template>
-                    {{ data.body }}
+                    {{ data?.body ?? 'No body' }}
                     <template #footer>
                         <UButton label="Read all" />
                     </template>

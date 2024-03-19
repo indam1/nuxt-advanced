@@ -7,7 +7,7 @@
             <div>
                 <USelectMenu
                     v-model="selectedView"
-                    :options="getValues(TransactionViewOption)"
+                    :options="getValues(TransactionViewOptions)"
                 />
             </div>
         </section>
@@ -103,6 +103,8 @@
 
 <script setup lang="ts">
 import {endOfDay, endOfMonth, endOfYear, startOfDay, startOfMonth, startOfYear, sub} from "date-fns";
+import type {Database, Tables} from "~/utils/supabase";
+import type {TransactionViewOption} from "~/utils/const";
 
 definePageMeta({
     documentDriven: false
@@ -138,7 +140,7 @@ const {
     },
 } = await useFetchTransactions(previous);
 
-async function useFetchTransactions (period: any) {
+async function useFetchTransactions (period: Ref<{ from: Date; to: Date }>) {
     const supabase = useSupabaseClient<Database>();
     const visibility = useDocumentVisibility();
 
@@ -161,16 +163,16 @@ async function useFetchTransactions (period: any) {
     );
 
     const incomeTransactions = computed(
-        () => transactions.value.filter(transaction => transaction.type === TransactionType.Income)
+        () => transactions.value.filter(transaction => transaction.type === TransactionTypes.Income)
     );
     const expenseTransactions = computed(
-        () => transactions.value.filter(transaction => transaction.type === TransactionType.Expense)
+        () => transactions.value.filter(transaction => transaction.type === TransactionTypes.Expense)
     );
     const savingTransactions = computed(
-        () => transactions.value.filter(transaction => transaction.type === TransactionType.Saving)
+        () => transactions.value.filter(transaction => transaction.type === TransactionTypes.Saving)
     );
     const investmentTransactions = computed(
-        () => transactions.value.filter(transaction => transaction.type === TransactionType.Investment)
+        () => transactions.value.filter(transaction => transaction.type === TransactionTypes.Investment)
     );
 
     const incomeCount = computed(() => incomeTransactions.value.length);
@@ -243,7 +245,7 @@ async function useFetchTransactions (period: any) {
     };
 }
 
-function useSelectedTimePeriod(period: any) {
+function useSelectedTimePeriod(period: Ref<TransactionViewOption>) {
     const data = computed(() => ({
         date: new Date(),
         period: period.value,
@@ -251,17 +253,17 @@ function useSelectedTimePeriod(period: any) {
 
     const current = computed(() => {
         switch (data.value.period) {
-            case TransactionViewOption.Yearly:
+            case TransactionViewOptions.Yearly:
                 return {
                     from: startOfYear(data.value.date),
                     to: endOfYear(data.value.date),
                 };
-            case TransactionViewOption.Monthly:
+            case TransactionViewOptions.Monthly:
                 return {
                     from: startOfMonth(data.value.date),
                     to: endOfMonth(data.value.date),
                 };
-            case TransactionViewOption.Daily:
+            case TransactionViewOptions.Daily:
                 return {
                     from: startOfDay(data.value.date),
                     to: endOfDay(data.value.date),
@@ -276,17 +278,17 @@ function useSelectedTimePeriod(period: any) {
 
     const previous = computed(() => {
         switch (data.value.period) {
-            case TransactionViewOption.Yearly:
+            case TransactionViewOptions.Yearly:
                 return {
                     from: startOfYear(sub(data.value.date, {years: 1})),
                     to: endOfYear(sub(data.value.date, {years: 1})),
                 };
-            case TransactionViewOption.Monthly:
+            case TransactionViewOptions.Monthly:
                 return {
                     from: startOfMonth(sub(data.value.date, {months: 1})),
                     to: endOfMonth(sub(data.value.date, {months: 1})),
                 };
-            case TransactionViewOption.Daily:
+            case TransactionViewOptions.Daily:
                 return {
                     from: startOfDay(sub(data.value.date, {days: 1})),
                     to: endOfDay(sub(data.value.date, {days: 1})),

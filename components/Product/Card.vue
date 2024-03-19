@@ -11,16 +11,12 @@
         </template>
         {{ props.description }}
         <template #footer>
-            <UButton
-                ref="button"
-                label="Click me"
-            />
+            <UButton label="Click me" />
         </template>
     </UCard>
 </template>
 
 <script setup lang="ts">
-const button = ref<InstanceType<typeof UButton>>();
 const props = defineProps<{
     title: string
     description: string

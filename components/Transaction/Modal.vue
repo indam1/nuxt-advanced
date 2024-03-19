@@ -21,7 +21,7 @@
                         v-model="state.type"
                         :disable="isEditing"
                         placeholder="Select the transaction type"
-                        :options="getValues(TransactionType)"
+                        :options="getValues(TransactionTypes)"
                     />
                 </UFormGroup>
 
@@ -64,7 +64,7 @@
                 </UFormGroup>
 
                 <UFormGroup
-                    v-if="state.type === TransactionType.Expense"
+                    v-if="state.type === TransactionTypes.Expense"
                     label="Category"
                     hint="Optional"
                     name="category"
@@ -73,7 +73,7 @@
                     <USelect
                         v-model="state.category"
                         placeholder="Select"
-                        :options="getValues(TransactionCategory)"
+                        :options="getValues(TransactionCategories)"
                     />
                 </UFormGroup>
 
@@ -88,6 +88,8 @@
 </template>
 
 <script setup lang="ts">
+import type {Database, Tables} from "~/utils/supabase";
+
 const props = defineProps<{
     transaction?: Tables<'transactions'>
 }>();
@@ -109,7 +111,8 @@ const saveForm = async () => {
 
     isLoading.value = true;
     try {
-        const { error } = await supabase.from('transactions').upsert({ ...state.value, id: props.transaction?.id });
+        const values = { ...state.value, id: props.transaction?.id };
+        const { error } = await supabase.from('transactions').upsert(values);
         if (error) {
             if (hasErrorMessage(error)) {
                 toastError({
@@ -138,20 +141,20 @@ const saveForm = async () => {
 };
 
 const initialState = isEditing.value ? {
-    type: props.transaction.type,
-    amount: props.transaction.amount,
-    created_at: props.transaction.created_at.split('T')[0],
-    description: props.transaction.description,
-    category: props.transaction.category,
+    type: props.transaction?.type ?? '',
+    amount: props.transaction?.amount ?? 0,
+    created_at: props.transaction?.created_at.split('T')[0] ?? '',
+    description: props.transaction?.description ?? '',
+    category: props.transaction?.category ?? '',
 } : {
-    type: undefined,
+    type: '',
     amount: 0,
-    created_at: undefined,
-    description: undefined,
-    category: undefined,
+    created_at: '',
+    description: '',
+    category: '',
 };
 
-const state = ref<TablesInsert<'transactions'>>({ ...initialState });
+const state = ref({ ...initialState });
 
 const resetForm = () => {
     state.value = { ...initialState };

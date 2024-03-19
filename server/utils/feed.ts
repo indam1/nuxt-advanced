@@ -1,9 +1,10 @@
 import { Feed } from 'feed';
 import * as cheerio from 'cheerio';
 import { serverQueryContent } from '#content/server';
-import type { H3Event } from 'h3';
+import type {EventHandlerRequest, H3Event} from 'h3';
+import { useSiteConfig, withSiteUrl } from '#imports';
 
-export async function generateBlogFeed(event: H3Event) {
+export async function generateBlogFeed(event: H3Event<EventHandlerRequest>) {
     const { url, name, currentLocale } = useSiteConfig(event);
     // Fetch all documents
     const feed = new Feed({
@@ -38,12 +39,13 @@ export async function generateBlogFeed(event: H3Event) {
             this.attribs = {};
         });
 
+        const { id, link } = withSiteUrl(event, post._path);
         feed.addItem({
-            title: post.title,
-            id: withSiteUrl(event, post._path),
-            link: withSiteUrl(event, post._path),
+            title: post.title ?? '',
+            id,
+            link,
             description: post.description,
-            content: $('body').html(),
+            content: $('body').html() ?? '',
             author: [
                 {
                     name: 'IndamFake',

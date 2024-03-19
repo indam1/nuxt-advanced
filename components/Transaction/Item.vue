@@ -43,16 +43,19 @@
 </template>
 
 <script setup lang="ts">
+import type {Database, Tables} from "~/utils/supabase";
+
 const props = defineProps<{
     transaction: Tables<'transactions'>
 }>();
 
 const emit = defineEmits(['transactiondelete', 'transactionedit']);
-const isProfit = computed(() => [TransactionType.Income, TransactionType.Investment, TransactionType.Saving].includes(props.transaction.type));
+const profitTransactionTypes: Array<string> = [TransactionTypes.Income, TransactionTypes.Investment, TransactionTypes.Saving];
+const isProfit = computed(() => profitTransactionTypes.includes(props.transaction.type));
 const icon = computed(() => isProfit.value ? 'i-heroicons-arrow-up-right' : 'i-heroicons-arrow-down-left');
 const iconColor = computed(() => isProfit.value ? 'text-green-600' : 'text-red-600');
 
-const { currency } = useCurrency(props.transaction.amount);
+const { currency } = useCurrency(toRef(() => props.transaction.amount));
 
 const isLoading = ref(false);
 const { toastError, toastSuccess } = useAppToast();
@@ -70,8 +73,10 @@ const deleteTransaction = async () => {
         toastSuccess({title: 'Transaction deleted',});
         emit('transactiondelete', props.transaction.id);
 
-    } catch (error: any) {
-        toastError({ title: 'Transaction was not deleted', description: e.message });
+    } catch (error) {
+        if (hasErrorMessage(error)) {
+            toastError({title: 'Transaction was not deleted', description: error.message});
+        }
 
     } finally {
         isLoading.value = false;

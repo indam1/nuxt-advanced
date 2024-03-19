@@ -1,3 +1,5 @@
+import type {Database} from "~/utils/supabase";
+
 export const useSavingUser = (state: { name?: string, email?: string, transactionView?: TransactionViewOption }) => {
     const user = useSupabaseUser();
     const pending = ref(false);
@@ -36,11 +38,13 @@ export const useSavingUser = (state: { name?: string, email?: string, transactio
             toastSuccess({
                 title: 'Profile updated',
             });
-        } catch (e: any) {
-            toastError({
-                title: 'Error updating profile',
-                description: e.message,
-            });
+        } catch (e) {
+            if (hasErrorMessage(e)) {
+                toastError({
+                    title: 'Error updating profile',
+                    description: e.message,
+                });
+            }
 
         } finally {
             pending.value = false;

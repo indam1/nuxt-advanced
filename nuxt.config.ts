@@ -1,7 +1,6 @@
 export default defineNuxtConfig({
     app: {
-        // ToDo fix breaking layout link
-        // pageTransition: { name: 'page', mode: 'out-in' },
+        pageTransition: { name: 'page', mode: 'out-in' },
         head: {
             charset: 'utf-8',
             viewport: 'width=device-width, initial-scale=1',
@@ -10,6 +9,7 @@ export default defineNuxtConfig({
             }
         }
     },
+    pages: true,
     nitro: {
         experimental: {
             websocket: true,
@@ -30,9 +30,6 @@ export default defineNuxtConfig({
             enabled: true
         }
     },
-    future: {
-        typescriptBundlerResolution: true
-    },
     runtimeConfig: {
         public: {
             baseUrl: process.env.BASE_URL,
@@ -44,7 +41,7 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-        ['@nuxtjs/eslint-module', { fix: true}],
+        ['@nuxtjs/eslint-module', { fix: true }],
         '@nuxtjs/supabase',
         '@nuxtjs/sitemap',
         '@vueuse/nuxt',
@@ -70,10 +67,8 @@ export default defineNuxtConfig({
         }
     },
     typescript: {
-        strict: true,
-    },
-    features: {
-        devLogs: false,
+        shim: true,
+        // typeCheck: true,
     },
     site: {
         url: process.env.BASE_URL,

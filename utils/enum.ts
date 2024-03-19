@@ -6,6 +6,6 @@ export function getKeys<T extends Record<string, any>>(obj: T) {
     return Object.keys(obj) as Array<keyof T>;
 }
 
-export function hasErrorMessage(error: any) {
-    return typeof error === 'object' && error && 'message' in error && typeof error.message === 'string';
+export function hasErrorMessage(e: unknown): e is { message: string } {
+    return typeof e === 'object' && !!e && 'message' in e && typeof e.message === 'string';
 }

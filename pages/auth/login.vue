@@ -47,6 +47,8 @@
 </template>
 
 <script setup lang="ts">
+import type {Database} from "~/utils/supabase";
+
 definePageMeta({
     layout: 'registration',
     documentDriven: false,

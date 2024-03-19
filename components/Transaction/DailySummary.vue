@@ -11,13 +11,16 @@
 </template>
 
 <script setup lang="ts">
+import type {Tables} from "~/utils/supabase";
+
 const props = defineProps<{
     transactions: Array<Tables<'transactions'>>
     date: string
 }>();
 
+const profitTransactionTypes: Array<string> = [TransactionTypes.Income, TransactionTypes.Investment, TransactionTypes.Saving];
 const sum = computed(() => props.transactions.reduce<number>(
-    (acc, transaction) => acc + ([TransactionType.Income, TransactionType.Investment, TransactionType.Saving].includes(transaction.type) ? 1 : -1) * (transaction.amount ?? 0), 0)
+    (acc, transaction) => acc + (profitTransactionTypes.includes(transaction.type) ? 1 : -1) * (transaction.amount ?? 0), 0)
 );
 const { currency } = useCurrency(sum);
 </script>

@@ -1,8 +1,10 @@
 <template>
-    <RegistrationHeader />
-    <main class="container mx-auto">
-        <slot />
-    </main>
+    <div>
+        <RegistrationHeader />
+        <main class="container mx-auto">
+            <slot />
+        </main>
+    </div>
 </template>
 
 <script setup lang="ts">

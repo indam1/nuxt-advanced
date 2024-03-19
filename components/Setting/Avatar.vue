@@ -38,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import type {UInput} from "#components";
+
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
@@ -84,8 +86,10 @@ const saveAvatar = async () => {
 
         toastSuccess({ title: 'New avatar uploaded' });
 
-    } catch (error: any) {
-        toastError({ title: 'Error uploading avatar', description: error.message });
+    } catch (error) {
+        if (hasErrorMessage(error)) {
+            toastError({title: 'Error uploading avatar', description: error.message});
+        }
 
     } finally {
         uploading.value = false;

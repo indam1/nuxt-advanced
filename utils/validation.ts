@@ -6,7 +6,7 @@ export const profileChangeSchema = z.object({
 });
 
 export const transactionViewSchema = z.object({
-    transactionView: z.enum(getValues(TransactionViewOption))
+    transactionView: z.enum(getValues(TransactionViewOptions))
 });
 
 const defaultTransactionModalSchema = z.object({
@@ -20,7 +20,7 @@ const incomeTransactionModalSchema = z.object({
 });
 const expenseTransactionModalSchema = z.object({
     type: z.literal('Expense'),
-    category: z.enum(getValues(TransactionCategory)),
+    category: z.enum(getValues(TransactionCategories)),
 });
 const investmentTransactionModalSchema = z.object({
     type: z.literal('Investment')

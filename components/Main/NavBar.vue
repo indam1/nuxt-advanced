@@ -25,9 +25,12 @@
 </template>
 
 <script setup lang="ts">
-const hover = ref<string | null>(null);
+import type {DropdownItem} from "#ui/types";
+
+type Navigation = { [key: string]: Array<Array<DropdownItem>> };
+const hover = ref<keyof Navigation | null>(null);
 const props = defineProps<{
-    navigation: { [key: string]: any }
+    navigation: Navigation
 }>();
 const { navigation } = toRefs(props);
 </script>
