@@ -12,7 +12,7 @@ export async function generateBlogFeed(event: H3Event<EventHandlerRequest>) {
         id: url,
         link: url,
         language: currentLocale,
-        favicon: withSiteUrl(event, `/favicon.svg`),
+        favicon: withSiteUrl(event, `/favicon.ico`),
         generator: ';)',
         copyright: `No license :(`,
         feedLinks: {
@@ -39,11 +39,11 @@ export async function generateBlogFeed(event: H3Event<EventHandlerRequest>) {
             this.attribs = {};
         });
 
-        const { id, link } = withSiteUrl(event, post._path);
+        const id = withSiteUrl(event, post._path);
         feed.addItem({
             title: post.title ?? '',
             id,
-            link,
+            link: id,
             description: post.description,
             content: $('body').html() ?? '',
             author: [
