@@ -10,6 +10,9 @@
 useHead({
     title: 'IndamFake',
     titleTemplate: '%s - Cool Bank',
+    meta: [
+        { name: 'description', content: 'Fake pet-project bank' },
+    ]
 });
 </script>
 
